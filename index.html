@@ -1,0 +1,1408 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Tablero del hito de apertura de Bolder: 1 de noviembre de 2026.">
+<style>
+  :root { color-scheme: light dark; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  body { margin: 0; font: 14px system-ui, -apple-system, "Segoe UI", sans-serif; background: #FBFAF6; }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+</style>
+<title>Hito Fuck It</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --paper: #FBFAF6;
+    --grid: rgba(34, 48, 104, 0.075);
+    --surface: #FFFFFF;
+    --surface-2: #F2F1EC;
+    --ink: #1B2550;
+    --ink-soft: #5B6489;
+    --ink-faint: #8B92AC;
+    --rule: #CFD2DF;
+    --accent: #2E3FA6;
+    --accent-soft: rgba(46, 63, 166, 0.10);
+    --critical: #B03A26;
+    --critical-soft: rgba(176, 58, 38, 0.10);
+    --ok: #2F7A57;
+    --shadow: 0 1px 2px rgba(27, 37, 80, 0.06), 0 6px 16px rgba(27, 37, 80, 0.05);
+    --overlay: rgba(27, 37, 80, 0.38);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #111320;
+      --grid: rgba(150, 170, 255, 0.055);
+      --surface: #1A1D2C;
+      --surface-2: #232636;
+      --ink: #E7EAF6;
+      --ink-soft: #A3AAC7;
+      --ink-faint: #767D99;
+      --rule: #2E3345;
+      --accent: #93A5FF;
+      --accent-soft: rgba(147, 165, 255, 0.14);
+      --critical: #E98B74;
+      --critical-soft: rgba(233, 139, 116, 0.14);
+      --ok: #6FC49A;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 6px 16px rgba(0, 0, 0, 0.25);
+      --overlay: rgba(4, 6, 14, 0.6);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #111320;
+    --grid: rgba(150, 170, 255, 0.055);
+    --surface: #1A1D2C;
+    --surface-2: #232636;
+    --ink: #E7EAF6;
+    --ink-soft: #A3AAC7;
+    --ink-faint: #767D99;
+    --rule: #2E3345;
+    --accent: #93A5FF;
+    --accent-soft: rgba(147, 165, 255, 0.14);
+    --critical: #E98B74;
+    --critical-soft: rgba(233, 139, 116, 0.14);
+    --ok: #6FC49A;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 6px 16px rgba(0, 0, 0, 0.25);
+    --overlay: rgba(4, 6, 14, 0.6);
+  }
+
+  body {
+    background-color: var(--paper);
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 26px 26px;
+    color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  * { box-sizing: border-box; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 32px 64px; }
+
+  .eyebrow {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--ink-faint); margin: 0 0 10px;
+  }
+  h1 {
+    font-family: "Archivo", system-ui, sans-serif; font-weight: 700;
+    font-size: clamp(30px, 6vw, 46px); letter-spacing: -.025em;
+    line-height: 1.02; margin: 0; text-wrap: balance;
+  }
+  .lede { margin: 12px 0 0; max-width: 62ch; color: var(--ink-soft); }
+  .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 13px; }
+
+  .meta {
+    display: flex; flex-wrap: wrap; gap: 10px 28px;
+    margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--rule);
+  }
+  .meta div { display: flex; flex-direction: column; gap: 2px; }
+  .meta .k {
+    font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10.5px;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint);
+  }
+  .meta .v {
+    font-family: "Archivo", system-ui, sans-serif; font-weight: 600;
+    font-size: 17px; font-variant-numeric: tabular-nums;
+  }
+  .v.hot { color: var(--critical); }
+
+  .controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-top: 26px; }
+  .filters { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  .filters .k {
+    font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10.5px;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint); margin-right: 4px;
+  }
+  .pbtn {
+    font: inherit; font-size: 13px; font-weight: 500; color: var(--ink-soft);
+    background: var(--surface); border: 1px solid var(--rule); border-radius: 999px;
+    padding: 5px 12px; cursor: pointer; transition: background .12s, color .12s, border-color .12s;
+  }
+  .pbtn:hover { border-color: var(--accent); color: var(--ink); }
+  .pbtn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+  .ghostbtn {
+    font: inherit; font-size: 13px; font-weight: 500; color: var(--ink-soft);
+    background: none; border: 1px solid var(--rule); border-radius: 6px;
+    padding: 5px 12px; cursor: pointer;
+  }
+  .ghostbtn:hover { border-color: var(--accent); color: var(--ink); }
+  .primarybtn {
+    font: inherit; font-size: 13px; font-weight: 600; color: var(--paper);
+    background: var(--accent); border: 1px solid var(--accent); border-radius: 6px;
+    padding: 6px 13px; cursor: pointer;
+  }
+  .primarybtn:hover { filter: brightness(1.08); }
+
+  .syncline {
+    display: flex; align-items: center; gap: 7px; margin-top: 14px;
+    font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px;
+    letter-spacing: .04em; color: var(--ink-faint);
+  }
+  .syncdot { width: 7px; height: 7px; border-radius: 50%; background: var(--ink-faint); flex-shrink: 0; }
+  .syncdot.live { background: var(--ok); }
+
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 10px;
+    font-size: 12.5px; color: var(--ink-soft);
+  }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .dot { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
+  .dot.c { background: var(--critical); }
+  .dot.d { background: var(--accent); }
+  .dot.o { background: var(--ink-faint); opacity: .5; }
+
+  .board { margin-top: 26px; }
+  .colhead { display: grid; grid-template-columns: 150px 1fr 1fr; gap: 0 18px; align-items: end; padding-bottom: 8px; }
+  .colhead h2 {
+    font-family: "Archivo", system-ui, sans-serif; font-size: 13px; font-weight: 600;
+    letter-spacing: .02em; margin: 0; color: var(--ink);
+  }
+  .colhead .sub {
+    display: block; font-family: "IBM Plex Mono", ui-monospace, monospace; font-weight: 400;
+    font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); margin-top: 2px;
+  }
+  .colhead .later h2 { color: var(--ink-soft); }
+  .deadline-col { padding-left: 16px; border-left: 2px solid var(--accent); }
+
+  .lane { display: grid; grid-template-columns: 150px 1fr 1fr; gap: 0 18px; padding: 18px 0; border-top: 1px solid var(--rule); }
+  .lane:last-of-type { border-bottom: 1px solid var(--rule); }
+  .lane-name {
+    font-family: "Archivo", system-ui, sans-serif; font-weight: 600; font-size: 14px;
+    letter-spacing: .01em; line-height: 1.25; text-transform: uppercase; padding-top: 2px;
+  }
+  .lane-name .n {
+    display: block; font-family: "IBM Plex Mono", ui-monospace, monospace; font-weight: 400;
+    font-size: 10.5px; color: var(--ink-faint); letter-spacing: .1em; margin-bottom: 4px;
+  }
+  .col { display: flex; flex-direction: column; gap: 10px; min-width: 0; min-height: 46px; border-radius: 7px; }
+  .col.later { padding-left: 16px; border-left: 2px solid var(--accent); }
+  .col.dragover { background: var(--accent-soft); outline: 1px dashed var(--accent); outline-offset: 3px; }
+  .addhere {
+    font: inherit; font-size: 12px; color: var(--ink-faint); background: none;
+    border: 1px dashed var(--rule); border-radius: 6px; padding: 7px; cursor: pointer; text-align: left;
+  }
+  .addhere:hover { border-color: var(--accent); color: var(--accent); }
+
+  .chip {
+    background: var(--surface); border: 1px solid var(--rule); border-left: 3px solid var(--accent);
+    border-radius: 7px; box-shadow: var(--shadow); overflow: hidden; transition: opacity .15s;
+  }
+  .chip.crit { border-left-color: var(--critical); }
+  .chip.out { background: none; border: 1px dashed var(--rule); box-shadow: none; }
+  .chip.dim { opacity: .28; }
+  .chip.dragging { opacity: .45; }
+  .chip.dropbefore { box-shadow: 0 -3px 0 -1px var(--accent), var(--shadow); }
+
+  .chip-head { display: flex; align-items: flex-start; gap: 6px; padding: 9px 9px 9px 11px; }
+  .chip-open {
+    flex: 1; min-width: 0; display: flex; align-items: flex-start; gap: 10px; text-align: left;
+    font: inherit; color: inherit; background: none; border: 0; padding: 2px 0; cursor: pointer;
+  }
+  .chip-title { flex: 1; min-width: 0; font-weight: 600; font-size: 14px; line-height: 1.3; }
+  .chip.out .chip-title { font-weight: 500; color: var(--ink-soft); }
+  .tag {
+    display: inline-block; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9.5px;
+    letter-spacing: .1em; text-transform: uppercase; padding: 2px 6px; border-radius: 3px;
+    margin-top: 6px; background: var(--accent-soft); color: var(--accent);
+  }
+  .tag.crit { background: var(--critical-soft); color: var(--critical); }
+  .tag.out { background: none; color: var(--ink-faint); padding-left: 0; }
+
+  .people { display: flex; gap: 3px; flex-shrink: 0; padding-top: 1px; }
+  .who {
+    width: 23px; height: 23px; border-radius: 50%; display: grid; place-items: center;
+    font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10.5px; font-weight: 500;
+    border: 1px solid var(--rule); color: var(--ink-soft); background: var(--surface);
+  }
+  .who.lead { border-color: var(--accent); background: var(--accent); color: var(--paper); font-weight: 600; }
+
+  .chip-tools { display: flex; gap: 2px; flex-shrink: 0; align-self: flex-start; }
+  .tool {
+    width: 22px; height: 20px; display: grid; place-items: center; font: inherit; font-size: 12px;
+    line-height: 1; color: var(--ink-faint); background: none; border: 1px solid transparent;
+    border-radius: 4px; cursor: pointer;
+  }
+  .tool:hover { color: var(--accent); border-color: var(--rule); background: var(--surface-2); }
+  .grip { cursor: grab; color: var(--ink-faint); font-size: 13px; padding: 2px 2px 0; user-select: none; }
+  .grip:active { cursor: grabbing; }
+
+  .detail { border-top: 1px solid var(--rule); padding: 12px; background: var(--surface-2); font-size: 13.5px; }
+  .detail ul { margin: 0; padding-left: 17px; display: flex; flex-direction: column; gap: 4px; }
+  .detail li { color: var(--ink-soft); }
+  .detail li b { color: var(--ink); font-weight: 600; }
+  .detail .empty { color: var(--ink-faint); font-style: italic; margin: 0; }
+  .facts {
+    display: flex; flex-wrap: wrap; gap: 4px 18px; margin-top: 11px; padding-top: 10px;
+    border-top: 1px dashed var(--rule); font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px; color: var(--ink-faint);
+  }
+  .facts b { color: var(--ink-soft); font-weight: 500; }
+
+  /* modal */
+  .overlay {
+    position: fixed; inset: 0; background: var(--overlay); display: flex;
+    align-items: flex-start; justify-content: center; padding: 24px 16px; overflow-y: auto; z-index: 50;
+  }
+  .sheet {
+    background: var(--surface); border: 1px solid var(--rule); border-radius: 10px;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, .22); width: 100%; max-width: 520px; padding: 20px;
+  }
+  .sheet h2 {
+    font-family: "Archivo", system-ui, sans-serif; font-size: 18px; font-weight: 600;
+    margin: 0 0 16px; letter-spacing: -.01em;
+  }
+  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+  .field > label, .grouplabel {
+    font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10.5px;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint);
+  }
+  .field input[type="text"], .field select, .field textarea {
+    font: inherit; font-size: 14px; color: var(--ink); background: var(--paper);
+    border: 1px solid var(--rule); border-radius: 6px; padding: 8px 10px; width: 100%;
+  }
+  .field textarea { min-height: 86px; resize: vertical; line-height: 1.45; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .hint { font-size: 12px; color: var(--ink-faint); }
+  .ptable { display: flex; flex-direction: column; gap: 2px; border: 1px solid var(--rule); border-radius: 6px; padding: 8px 10px; background: var(--paper); }
+  .prow { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px; font-size: 14px; }
+  .prow label { display: flex; align-items: center; gap: 7px; cursor: pointer; }
+  .prow .leadlab { font-size: 12px; color: var(--ink-faint); }
+  .prow input { accent-color: var(--accent); }
+  .sheet-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--rule); }
+  .sheet-actions .spacer { flex: 1; }
+  .dangerbtn { font: inherit; font-size: 13px; font-weight: 500; color: var(--critical); background: none; border: 1px solid var(--rule); border-radius: 6px; padding: 5px 12px; cursor: pointer; }
+  .dangerbtn:hover { border-color: var(--critical); }
+  .jsonbox { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11.5px; min-height: 220px; }
+
+  .notes { margin-top: 34px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px 28px; }
+  .notes h3 {
+    font-family: "Archivo", system-ui, sans-serif; font-size: 12px; font-weight: 600;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); margin: 0 0 8px;
+  }
+  .notes p, .notes li { font-size: 13.5px; color: var(--ink-soft); margin: 0 0 7px; }
+  .notes ul { margin: 0; padding-left: 17px; }
+  .notes b { color: var(--ink); }
+
+  @media (max-width: 760px) {
+    .colhead { display: none; }
+    .lane { grid-template-columns: 1fr; gap: 12px; padding: 20px 0; }
+    .col.later, .deadline-col { padding-left: 0; border-left: 0; }
+    .col::before {
+      font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px;
+      letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint);
+    }
+    .col.before::before { content: "Antes del 1 nov"; color: var(--critical); }
+    .col.later::before { content: "Después de la apertura"; padding-top: 4px; border-top: 2px solid var(--accent); }
+    .two { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Bolder · Go-to-market</p>
+  <h1>Hito Fuck It</h1>
+  <p class="lede">Abrimos las puertas el 1 de noviembre con lo que esté listo: pricing publicado, sign-up habilitado y el cliente operando solo en su admin y su dominio <span class="mono">bolder.shop</span>. Todo lo que no bloquee esa apertura se va a la columna de la derecha.</p>
+
+  <div class="meta">
+    <div><span class="k">Fecha del hito</span><span class="v">Sáb 1 nov 2026</span></div>
+    <div><span class="k">Restan</span><span class="v hot" id="left">40 días · 6 semanas</span></div>
+    <div><span class="k">Críticos abiertos</span><span class="v" id="critcount">13</span></div>
+    <div><span class="k">Equipo</span><span class="v">5</span></div>
+  </div>
+
+  <div class="controls">
+    <div class="filters">
+      <span class="k">Filtrar</span>
+      <button class="pbtn" data-p="T" aria-pressed="false">Tomás</button>
+      <button class="pbtn" data-p="D" aria-pressed="false">Diego</button>
+      <button class="pbtn" data-p="M" aria-pressed="false">Manu</button>
+      <button class="pbtn" data-p="C" aria-pressed="false">Caro</button>
+      <button class="pbtn" data-p="A" aria-pressed="false">Alexis</button>
+    </div>
+    <button class="primarybtn editonly" id="addBtn" hidden>+ Compromiso</button>
+    <button class="ghostbtn" id="toggleAll" aria-pressed="false">Expandir todo</button>
+    <button class="ghostbtn" id="refreshBtn">Actualizar</button>
+    <a class="ghostbtn editonly" id="sheetLink" hidden target="_blank" rel="noopener">Abrir el Sheet</a>
+  </div>
+
+  <div class="syncline"><i class="syncdot" id="syncdot"></i><span id="syncmsg">Leyendo el Sheet…</span></div>
+
+  <div class="legend">
+    <span><i class="dot c"></i> Crítico: sin esto no abrimos</span>
+    <span><i class="dot d"></i> Deseable: suma, pero no bloquea</span>
+    <span><i class="dot o"></i> Fuera del hito: calendario propio</span>
+    <span>Círculo relleno = líder</span>
+  </div>
+
+  <div class="board" id="board"></div>
+
+  <div class="notes">
+    <div>
+      <h3 id="usoTitle">Cómo usarlo</h3>
+      <div id="usoBody">
+        <p>Esta es la versión de revisión. Los cambios se hacen en el tablero con el link de edición, o directo en la planilla.</p>
+        <p>Al abrir un chip están las subtareas, las dependencias y la semana: ese es el material del Gantt.</p>
+      </div>
+    </div>
+    <div>
+      <h3>Lo que decide la fecha</h3>
+      <p>La cadena más larga es <b>sign-up → bloqueantes → QA</b>, y depende de desarrollo. Tiene que partir esta semana. Adelantar el 1/11 solo es viable si esa cadena se acorta.</p>
+      <p><b>T&amp;C</b> es la otra que bloquea el alta y depende de un tercero (revisión legal). Conviene empujarla los primeros días.</p>
+    </div>
+    <div>
+      <h3>Por confirmar</h3>
+      <ul>
+        <li>Los líderes son una propuesta: validarlos en la reunión.</li>
+        <li>Semana 1 = 22–28 sep. La semana 6 termina el 1/11.</li>
+        <li>¿Hay trial en el alta? Cambia el flujo y el cobro.</li>
+        <li>¿El nuevo admin bloquea? Es la definición de mayor impacto en la fecha.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+/* Copia incluida en el archivo: lo que se muestra si el Sheet no responde. */
+var FALLBACK_ROWS = [
+ {
+  "id": "mkt-pricing",
+  "carril": "Marketing / Web",
+  "columna": "Antes",
+  "estado": "Crítico",
+  "titulo": "Pricing público",
+  "lider": "Tomás",
+  "participantes": "Manu",
+  "semana": "1–2",
+  "dependencia": "Bloquea: sign-up · guion de venta · anuncio",
+  "subtareas": "Manu — revisar el pricing ya trabajado: planes, límites y precios\nManu — ajustar la información que quedó desalineada\nTomás — publicar la página de pricing\nTomás — linkearla desde el sitio y desde el sign-up",
+  "orden": 1
+ },
+ {
+  "id": "mkt-docs",
+  "carril": "Marketing / Web",
+  "columna": "Antes",
+  "estado": "Crítico",
+  "titulo": "Documentación publicada",
+  "lider": "Tomás",
+  "participantes": "Diego, Alexis",
+  "semana": "2–3",
+  "dependencia": "Bloquea: auto-atención de soporte",
+  "subtareas": "Alexis — revisión básica de la documentación de API (ya existe)\nDiego — complementar la documentación de cliente final\nTomás — publicar ambas y linkearlas desde el sitio",
+  "orden": 2
+ },
+ {
+  "id": "mkt-logos",
+  "carril": "Marketing / Web",
+  "columna": "Antes",
+  "estado": "Deseable",
+  "titulo": "Prueba social en la web ES",
+  "lider": "Diego",
+  "participantes": "Manu",
+  "semana": "3",
+  "dependencia": "",
+  "subtareas": "Elegir 2 clientes representativos para quien llegue al sitio\nManu — pedir la autorización de uso de marca\nDiego — subir los logos a la web en español",
+  "orden": 3
+ },
+ {
+  "id": "mkt-linkedin",
+  "carril": "Marketing / Web",
+  "columna": "Antes",
+  "estado": "Crítico",
+  "titulo": "Anuncio de apertura en LinkedIn",
+  "lider": "Manu",
+  "participantes": "Tomás, Diego",
+  "semana": "6",
+  "dependencia": "Depende de: pricing público · QA del alta",
+  "subtareas": "Definir el mensaje: qué abre, para quién y qué cambia respecto de hoy\nPosts desde los perfiles de los 3 + la página de Bolder\nPublicar el 1/11, no antes",
+  "orden": 4
+ },
+ {
+  "id": "mkt-hn",
+  "carril": "Marketing / Web",
+  "columna": "Después",
+  "estado": "Deseable",
+  "titulo": "Hacker News",
+  "lider": "Tomás",
+  "participantes": "",
+  "semana": "",
+  "dependencia": "",
+  "subtareas": "Show HN con el ángulo técnico: headless y casi 20 años de plataforma\nElegir día y hora, y tener preparadas las respuestas del hilo\nRequiere alta estable y documentación de API decente",
+  "orden": 1
+ },
+ {
+  "id": "mkt-prensa",
+  "carril": "Marketing / Web",
+  "columna": "Después",
+  "estado": "Deseable",
+  "titulo": "Entrevistas y prensa",
+  "lider": "Manu",
+  "participantes": "",
+  "semana": "",
+  "dependencia": "",
+  "subtareas": "Lista de podcasts, medios y newsletters de ecommerce LATAM\nContactar potenciales entrevistados con el caso ya abierto",
+  "orden": 2
+ },
+ {
+  "id": "prod-bloq",
+  "carril": "Producto",
+  "columna": "Antes",
+  "estado": "Crítico",
+  "titulo": "Bloqueantes de salida definidos",
+  "lider": "Tomás",
+  "participantes": "Alexis, Diego",
+  "semana": "1",
+  "dependencia": "Bloquea: todo el carril de Producto",
+  "subtareas": "Listar los candidatos: nuevo checkout para todos, nuevo admin, lo que falte\nDecidir cuáles bloquean la apertura y cuáles conviven con ella\nResponsable y fecha por cada bloqueante que quede dentro",
+  "orden": 1
+ },
+ {
+  "id": "prod-signup",
+  "carril": "Producto",
+  "columna": "Antes",
+  "estado": "Crítico",
+  "titulo": "Flujo de sign-up sin fricción",
+  "lider": "Alexis",
+  "participantes": "Tomás, Diego",
+  "semana": "1–4",
+  "dependencia": "Ruta crítica · depende de pricing y T&C",
+  "subtareas": "Revisar el flujo actual: existe, pero es básico y pasa por el equipo\nLevantar las observaciones y traspasarlas a desarrollo\nPriorizar e implementar: alta directa hasta admin + dominio bolder.shop\nConectar el medio de pago (ya activo) al alta\nIncorporar la aceptación de T&C dentro del flujo",
+  "orden": 2
+ },
+ {
+  "id": "prod-cerrar",
+  "carril": "Producto",
+  "columna": "Antes",
+  "estado": "Crítico",
+  "titulo": "Cerrar los bloqueantes",
+  "lider": "Tomás",
+  "participantes": "Alexis",
+  "semana": "2–5",
+  "dependencia": "Depende de: bloqueantes definidos",
+  "subtareas": "Ejecutar lo que quedó dentro: nuevo checkout y/o nuevo admin\nCorte semana 5: lo que no esté, sale a la columna de la derecha",
+  "orden": 3
+ },
+ {
+  "id": "prod-qa",
+  "carril": "Producto",
+  "columna": "Antes",
+  "estado": "Crítico",
+  "titulo": "QA end-to-end del alta",
+  "lider": "Alexis",
+  "participantes": "Caro, Diego",
+  "semana": "5",
+  "dependencia": "Depende de: sign-up · bloqueantes",
+  "subtareas": "Alta completa sin que intervenga nadie: registro → pago → admin → tienda en dominio\nProbar en móvil y con alguien ajeno al equipo mirando\nLista de errores conocidos y acuerdo de con cuáles salimos igual",
+  "orden": 4
+ },
+ {
+  "id": "prod-iterar",
+  "carril": "Producto",
+  "columna": "Después",
+  "estado": "Deseable",
+  "titulo": "Iterar el alta con datos reales",
+  "lider": "Alexis",
+  "participantes": "",
+  "semana": "",
+  "dependencia": "",
+  "subtareas": "Dónde abandonan los primeros clientes self-service\nAjustes de fricción con los primeros 10 registros en la mano",
+  "orden": 1
+ },
+ {
+  "id": "prod-migrar",
+  "carril": "Producto",
+  "columna": "Después",
+  "estado": "Deseable",
+  "titulo": "Migrar clientes antiguos al nuevo admin",
+  "lider": "Tomás",
+  "participantes": "",
+  "semana": "",
+  "dependencia": "",
+  "subtareas": "Solo si no quedó como bloqueante en la semana 1\nPlan de migración por tandas, avisando a cada cliente",
+  "orden": 2
+ },
+ {
+  "id": "chp-soporte",
+  "carril": "Customer Happiness",
+  "columna": "Antes",
+  "estado": "Crítico",
+  "titulo": "Canalización y auto-respuestas de soporte",
+  "lider": "Caro",
+  "participantes": "Alexis",
+  "semana": "2–5",
+  "dependencia": "Depende de: documentación de cliente final",
+  "subtareas": "Definir por dónde entra el cliente self-service, que no llega por Slack\nFAQ y respuestas automáticas para lo repetitivo\nReglas de derivación: qué resuelve Caro, qué va a Alexis, qué escala\nTiempo de respuesta que comprometemos y quién lo mira",
+  "orden": 1
+ },
+ {
+  "id": "chp-postalta",
+  "carril": "Customer Happiness",
+  "columna": "Antes",
+  "estado": "Crítico",
+  "titulo": "Seguimiento post-alta",
+  "lider": "Caro",
+  "participantes": "Manu",
+  "semana": "4–5",
+  "dependencia": "Depende de: sign-up funcionando",
+  "subtareas": "Quién se entera cuando entra un cliente nuevo: alerta automática a Slack\nContacto en día 1 y día 7, y qué se le pregunta en cada uno\nCriterio para pasarlo a Manu como oportunidad comercial",
+  "orden": 2
+ },
+ {
+  "id": "chp-deriv",
+  "carril": "Customer Happiness",
+  "columna": "Después",
+  "estado": "Deseable",
+  "titulo": "Derivación afinada con casos reales",
+  "lider": "Caro",
+  "participantes": "Alexis",
+  "semana": "",
+  "dependencia": "",
+  "subtareas": "Reclasificar los tickets reales de las primeras semanas\nAutomatizar lo que se repita, no lo que suponemos que se va a repetir",
+  "orden": 1
+ },
+ {
+  "id": "chp-estandar",
+  "carril": "Customer Happiness",
+  "columna": "Después",
+  "estado": "Deseable",
+  "titulo": "Estándar de servicio y rol proactivo",
+  "lider": "Caro",
+  "participantes": "Diego",
+  "semana": "",
+  "dependencia": "",
+  "subtareas": "Escribir el estándar antes de que el volumen lo defina solo\nEvolución del rol hacia happiness proactivo, con carga acotada",
+  "orden": 2
+ },
+ {
+  "id": "chp-semaforo",
+  "carril": "Customer Happiness",
+  "columna": "Después",
+  "estado": "Deseable",
+  "titulo": "Semáforo de clientes",
+  "lider": "Diego",
+  "participantes": "Caro",
+  "semana": "",
+  "dependencia": "",
+  "subtareas": "Terminar el verde / amarillo / rojo ya iniciado\nAnticipar churn de la cartera actual mientras entran los nuevos",
+  "orden": 3
+ },
+ {
+  "id": "sales-guion",
+  "carril": "Sales / BizDev",
+  "columna": "Antes",
+  "estado": "Crítico",
+  "titulo": "Guion de venta con pricing a la vista",
+  "lider": "Manu",
+  "participantes": "",
+  "semana": "3–4",
+  "dependencia": "Depende de: pricing público",
+  "subtareas": "El discurso cambia cuando el precio es público: ajustarlo antes, no después\nRespuesta a \"¿por qué esto y no Shopify?\" con el precio en pantalla\nQué se hace con el lead que ya se dio de alta solo",
+  "orden": 1
+ },
+ {
+  "id": "sales-ref",
+  "carril": "Sales / BizDev",
+  "columna": "Antes",
+  "estado": "Deseable",
+  "titulo": "Estructura de referidos",
+  "lider": "Manu",
+  "participantes": "Diego",
+  "semana": "2–3",
+  "dependencia": "",
+  "subtareas": "Ficha de captura: qué información se le pide a quien refiere para que sirva\nCómo y en cuánto tiempo se traspasa al agente comercial\nDónde queda registrado y quién hace el seguimiento\nCasos vivos para probarla: Canal Cero, Manuel Suárez, Entre Lagos",
+  "orden": 2
+ },
+ {
+  "id": "sales-out",
+  "carril": "Sales / BizDev",
+  "columna": "Antes",
+  "estado": "Deseable",
+  "titulo": "Estructura outbound con metas",
+  "lider": "Manu",
+  "participantes": "Tomás",
+  "semana": "2–4",
+  "dependencia": "",
+  "subtareas": "Meta de clientes nuevos por mes, y desde ahí la cadena hacia atrás\nCuántos leads contactar, tasa de respuesta y tasa de cierre esperadas\nFuentes (WhatsApp, Google Maps) y dónde se registra cada contacto",
+  "orden": 3
+ },
+ {
+  "id": "sales-tracks",
+  "carril": "Sales / BizDev",
+  "columna": "Después",
+  "estado": "Fuera del hito",
+  "titulo": "Tracks comerciales en marcha",
+  "lider": "Manu",
+  "participantes": "Tomás, Diego",
+  "semana": "",
+  "dependencia": "Meta mensual propia",
+  "subtareas": "Outbound (velociraptores), B2B (brontosaurios) y referidos corren con su propia meta mensual\nNo entran al Gantt del hito: solo su estructura, que está en la columna de la izquierda",
+  "orden": 1
+ },
+ {
+  "id": "fin-tyc",
+  "carril": "Finanzas / Admin",
+  "columna": "Antes",
+  "estado": "Crítico",
+  "titulo": "T&C y política de privacidad publicadas",
+  "lider": "Diego",
+  "participantes": "Tomás",
+  "semana": "1–4",
+  "dependencia": "Bloquea: el sign-up",
+  "subtareas": "Cerrar lo que falta de los documentos, que están avanzados\nRevisión legal externa: estructura Fork y subprocesadores del DPA\nPublicarlos en el sitio y linkearlos\nAceptación explícita dentro del alta, no en un PDF aparte",
+  "orden": 1
+ },
+ {
+  "id": "fin-cobro",
+  "carril": "Finanzas / Admin",
+  "columna": "Antes",
+  "estado": "Crítico",
+  "titulo": "Cobro del alta self-service",
+  "lider": "Diego",
+  "participantes": "Tomás",
+  "semana": "2–4",
+  "dependencia": "Depende de: pricing definido",
+  "subtareas": "El medio de pago ya está activo: definir cómo se conecta al flujo\n¿Hay trial? ¿Cuándo se cobra el primer mes? ¿Qué pasa si el cobro falla?\nEmisión del documento tributario al cliente nuevo desde el día uno",
+  "orden": 2
+ },
+ {
+  "id": "fin-factura",
+  "carril": "Finanzas / Admin",
+  "columna": "Después",
+  "estado": "Deseable",
+  "titulo": "Facturación automatizada",
+  "lider": "Diego",
+  "participantes": "",
+  "semana": "",
+  "dependencia": "",
+  "subtareas": "Emisión y envío automáticos a toda la cartera, no solo a los nuevos\nVa después porque el volumen del primer mes se aguanta a mano",
+  "orden": 1
+ },
+ {
+  "id": "fin-proy",
+  "carril": "Finanzas / Admin",
+  "columna": "Después",
+  "estado": "Deseable",
+  "titulo": "Proyección y sueldos sin sobrecarga",
+  "lider": "Diego",
+  "participantes": "",
+  "semana": "",
+  "dependencia": "",
+  "subtareas": "Simplificar la proyección financiera y el tracking de pagos\nActualizar la proyección de ingresos con la información comercial de todos los tracks\nRevisar el supuesto de sueldos de noviembre contra las tiendas que realmente entren",
+  "orden": 2
+ },
+ {
+  "id": "fin-tools",
+  "carril": "Finanzas / Admin",
+  "columna": "Después",
+  "estado": "Deseable",
+  "titulo": "Herramientas del equipo",
+  "lider": "Diego",
+  "participantes": "",
+  "semana": "",
+  "dependencia": "",
+  "subtareas": "Contratar la suscripción de equipo de Claude para todas las áreas\nRevisar el plan de Slack: hoy se paga de más por los clientes incluidos",
+  "orden": 3
+ },
+ {
+  "id": "proj-duenio",
+  "carril": "Projects",
+  "columna": "Antes",
+  "estado": "Crítico",
+  "titulo": "Dueño del plan y alerta temprana",
+  "lider": "Diego",
+  "participantes": "",
+  "semana": "1",
+  "dependencia": "Cadencia: viernes",
+  "subtareas": "Quién levanta la mano cuando un carril se atrasa, y con cuánta anticipación\nCheckpoint del hito los viernes, 15 minutos, sobre este mismo tablero\nUn solo tablero visible para los 5, no una versión por persona",
+  "orden": 1
+ },
+ {
+  "id": "proj-capacidad",
+  "carril": "Projects",
+  "columna": "Antes",
+  "estado": "Crítico",
+  "titulo": "Proteger las últimas dos semanas",
+  "lider": "Diego",
+  "participantes": "Tomás, Alexis",
+  "semana": "3",
+  "dependencia": "Riesgo: el equipo técnico es el mismo de los proyectos",
+  "subtareas": "Revisar los compromisos con clientes entre el 20/10 y el 1/11\nMover lo que se pueda mover y avisar a tiempo lo que no\nAlexis y Tomás con holgura real para QA y bloqueantes",
+  "orden": 2
+ },
+ {
+  "id": "proj-adelantar",
+  "carril": "Projects",
+  "columna": "Antes",
+  "estado": "Deseable",
+  "titulo": "Decisión de adelantar la fecha",
+  "lider": "Diego",
+  "participantes": "Tomás, Manu",
+  "semana": "3",
+  "dependencia": "",
+  "subtareas": "Punto de control el viernes 9/10, al cierre de la semana 3\nSe adelanta solo si los cuatro críticos de Producto están cerrados o a la vista\nSi se adelanta, el anuncio se mueve con la fecha, no al revés",
+  "orden": 3
+ },
+ {
+  "id": "proj-clientes",
+  "carril": "Projects",
+  "columna": "Después",
+  "estado": "Fuera del hito",
+  "titulo": "Proyectos con clientes: Knop, Yves Rocher, ARQ+",
+  "lider": "Diego",
+  "participantes": "Tomás, Alexis",
+  "semana": "",
+  "dependencia": "Gantt propio por proyecto",
+  "subtareas": "Cada proyecto mantiene sus fechas comprometidas con el cliente\nSolo entran al hito por la capacidad técnica que consumen",
+  "orden": 1
+ }
+];
+</script>
+<script>
+(function () {
+  "use strict";
+
+  /* ============================================================
+     CONFIGURACIÓN — lo único que hay que tocar
+     ============================================================ */
+
+  // URL de la aplicación web de Apps Script (termina en /exec).
+  // Mientras esté vacía, la página muestra la copia incluida en el archivo.
+  var API_URL = "https://script.google.com/macros/s/AKfycbwVnh3nrOV_9DTj3s7m_RTitcUQBhzmUr4BqOAavf7V3-AtGOR3H65QzirBNGfT8lMQbQ/exec";
+
+  // ID del Sheet, solo para el botón "Abrir el Sheet".
+  var SHEET_ID = "10VH2UuwUHCYK1T38HehHmhEWGzsZjsdIrX0EVdRylfk";
+
+  /* ============================================================ */
+
+  var LANES = [
+    { id: "mkt",   n: "01", name: "Marketing / Web",     sheet: "Marketing / Web" },
+    { id: "prod",  n: "02", name: "Producto",            sheet: "Producto" },
+    { id: "chp",   n: "03", name: "Customer Happiness",  sheet: "Customer Happiness" },
+    { id: "sales", n: "04", name: "Sales / BizDev",      sheet: "Sales / BizDev" },
+    { id: "fin",   n: "05", name: "Finanzas / Admin",    sheet: "Finanzas / Admin" },
+    { id: "proj",  n: "06", name: "Projects",            sheet: "Projects" }
+  ];
+  var PEOPLE = { T: "Tomás", D: "Diego", M: "Manu", C: "Caro", A: "Alexis" };
+  var PORDER = ["T", "D", "M", "C", "A"];
+  var KINDS = { crit: "Crítico", want: "Deseable", out: "Fuera del hito" };
+  var COLS = { before: "Antes", later: "Después" };
+
+  var LS_CACHE = "bolder-hito-cache";
+
+  var state = [];
+  var expanded = {};
+  var filter = null;
+  var canEdit = false;
+  var editKey = "";
+  var board = document.getElementById("board");
+
+  /* ---------- normalización ---------- */
+  function plain(s) {
+    return String(s == null ? "" : s).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
+  }
+  function laneFromSheet(v) {
+    var p = plain(v);
+    for (var i = 0; i < LANES.length; i++) if (plain(LANES[i].sheet) === p) return LANES[i].id;
+    if (p.indexOf("market") > -1 || p.indexOf("web") > -1) return "mkt";
+    if (p.indexOf("produc") > -1) return "prod";
+    if (p.indexOf("happi") > -1 || p.indexOf("soporte") > -1) return "chp";
+    if (p.indexOf("sales") > -1 || p.indexOf("bizdev") > -1 || p.indexOf("venta") > -1) return "sales";
+    if (p.indexOf("finan") > -1 || p.indexOf("admin") > -1) return "fin";
+    if (p.indexOf("project") > -1 || p.indexOf("proyecto") > -1) return "proj";
+    return "mkt";
+  }
+  function colFromSheet(v) { return plain(v).indexOf("antes") === 0 ? "before" : "later"; }
+  function kindFromSheet(v) {
+    var p = plain(v);
+    if (p.indexOf("critic") > -1) return "crit";
+    if (p.indexOf("fuera") > -1) return "out";
+    return "want";
+  }
+  function initialFromName(v) {
+    var p = plain(v);
+    if (!p) return "";
+    for (var k in PEOPLE) if (plain(PEOPLE[k]) === p) return k;
+    for (var k2 in PEOPLE) if (plain(PEOPLE[k2]).indexOf(p) === 0 || p.indexOf(plain(PEOPLE[k2])) === 0) return k2;
+    return "";
+  }
+  function peopleFromSheet(v) {
+    return String(v || "").split(/[,;]/).map(initialFromName).filter(Boolean);
+  }
+
+  function rowToChip(r) {
+    return {
+      id: String(r.id || "").trim(),
+      lane: laneFromSheet(r.carril),
+      col: colFromSheet(r.columna),
+      kind: kindFromSheet(r.estado),
+      title: String(r.titulo || "").trim(),
+      lead: initialFromName(r.lider),
+      people: peopleFromSheet(r.participantes),
+      week: String(r.semana || "").trim(),
+      dep: String(r.dependencia || "").trim(),
+      sub: String(r.subtareas || "").split("\n").map(function (s) { return s.trim(); }).filter(Boolean),
+      order: Number(r.orden) || 0
+    };
+  }
+  function chipToRow(c) {
+    var lane = LANES.filter(function (l) { return l.id === c.lane; })[0];
+    return {
+      id: c.id,
+      carril: lane ? lane.sheet : c.lane,
+      columna: COLS[c.col] || "Antes",
+      estado: KINDS[c.kind] || "Deseable",
+      titulo: c.title,
+      lider: PEOPLE[c.lead] || "",
+      participantes: (c.people || []).map(function (p) { return PEOPLE[p] || p; }).join(", "),
+      semana: c.week || "",
+      dependencia: c.dep || "",
+      subtareas: (c.sub || []).join("\n"),
+      orden: c.order || 0
+    };
+  }
+
+  /* ---------- transporte ---------- */
+  function cacheSave() {
+    try { localStorage.setItem(LS_CACHE, JSON.stringify({ ts: Date.now(), rows: state.map(chipToRow) })); } catch (e) {}
+  }
+  function cacheLoad() {
+    try {
+      var raw = localStorage.getItem(LS_CACHE);
+      if (!raw) return null;
+      var o = JSON.parse(raw);
+      if (o && o.rows && o.rows.length) return o;
+    } catch (e) {}
+    return null;
+  }
+
+  function adoptRows(rows) {
+    var next = [];
+    for (var i = 0; i < rows.length; i++) {
+      var c = rowToChip(rows[i]);
+      if (c.id && c.title) next.push(c);
+    }
+    if (next.length) state = next;
+  }
+
+  function fetchRows(silent) {
+    if (!API_URL) { setSync(false, "Sin Sheet configurado · copia incluida en el archivo"); return Promise.resolve(); }
+    if (!silent) setSync(false, "Leyendo el Sheet…");
+    return fetch(API_URL + "?t=" + Date.now(), { method: "GET" })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (!d || !d.ok || !d.rows) throw new Error("respuesta inesperada");
+        adoptRows(d.rows);
+        cacheSave();
+        render();
+        setSync(true, "Sheet · actualizado " + hhmm());
+      })
+      .catch(function () {
+        setSync(false, "Sin conexión al Sheet · mostrando la última copia");
+      });
+  }
+
+  var pending = [];
+  var flushing = false;
+  function queueWrite(op, chip) {
+    if (!canEdit) return;
+    pending = pending.filter(function (w) { return w.id !== chip.id; });
+    pending.push(op === "delete" ? { op: "delete", id: chip.id } : { op: "set", id: chip.id, data: chipToRow(chip) });
+    scheduleFlush();
+  }
+  var flushTimer = null;
+  function scheduleFlush() {
+    if (flushTimer) clearTimeout(flushTimer);
+    flushTimer = setTimeout(flush, 600);
+  }
+  function flush() {
+    if (flushing || !pending.length) return;
+    if (!API_URL) { setSync(false, "Sin Sheet configurado · los cambios no se guardan"); return; }
+    flushing = true;
+    var batch = pending;
+    pending = [];
+    setSync(true, "Guardando…");
+    fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ key: editKey, writes: batch })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        flushing = false;
+        if (!d || !d.ok) {
+          setSync(false, d && d.error === "clave_invalida" ? "Clave de edición inválida · no se guardó" : "No se pudo guardar en el Sheet");
+          return;
+        }
+        if (d.rows) { adoptRows(d.rows); cacheSave(); if (!overlay) render(); }
+        setSync(true, "Guardado en el Sheet · " + hhmm());
+        if (pending.length) scheduleFlush();
+      })
+      .catch(function () {
+        flushing = false;
+        setSync(false, "No se pudo guardar · revisa la conexión");
+      });
+  }
+
+  function hhmm() {
+    var d = new Date();
+    return ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
+  }
+  function setSync(live, msg) {
+    document.getElementById("syncdot").classList.toggle("live", !!live);
+    document.getElementById("syncmsg").textContent = msg;
+  }
+
+  /* ---------- helpers de estado ---------- */
+  function byId(id) {
+    for (var i = 0; i < state.length; i++) if (state[i].id === id) return state[i];
+    return null;
+  }
+  function inCol(lane, col) {
+    return state.filter(function (c) { return c.lane === lane && c.col === col; })
+                .sort(function (a, b) { return (a.order || 0) - (b.order || 0); });
+  }
+  function newId() { return "c" + Date.now().toString(36) + Math.random().toString(36).slice(2, 5); }
+  function clone(o) { return JSON.parse(JSON.stringify(o)); }
+
+  function removeChip(id) {
+    var chip = byId(id);
+    if (!chip) return;
+    state = state.filter(function (c) { return c.id !== id; });
+    queueWrite("delete", chip);
+    cacheSave();
+    render();
+  }
+
+  /* ---------- render ---------- */
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+
+  function chipNode(chip) {
+    var node = el("div", "chip" + (chip.kind === "crit" ? " crit" : "") + (chip.kind === "out" ? " out" : ""));
+    node.dataset.id = chip.id;
+    if (canEdit) node.draggable = true;
+
+    var head = el("div", "chip-head");
+
+    if (canEdit) {
+      var grip = el("span", "grip", "⠿");
+      grip.setAttribute("aria-hidden", "true");
+      head.appendChild(grip);
+    }
+
+    var open = el("button", "chip-open");
+    open.type = "button";
+    open.setAttribute("aria-expanded", expanded[chip.id] ? "true" : "false");
+
+    var t = el("span", "chip-title");
+    t.appendChild(document.createTextNode(chip.title));
+    t.appendChild(el("span", "tag" + (chip.kind === "crit" ? " crit" : chip.kind === "out" ? " out" : ""), KINDS[chip.kind] || "Deseable"));
+    open.appendChild(t);
+
+    var ppl = el("div", "people");
+    var list = [];
+    if (chip.lead) list.push(chip.lead);
+    (chip.people || []).forEach(function (p) { if (p !== chip.lead) list.push(p); });
+    list.forEach(function (p, i) {
+      var w = el("i", "who" + (i === 0 && chip.lead ? " lead" : ""), p);
+      w.title = (PEOPLE[p] || p) + (i === 0 && chip.lead ? " · líder" : "");
+      ppl.appendChild(w);
+    });
+    open.appendChild(ppl);
+    head.appendChild(open);
+
+    if (canEdit) {
+      var tools = el("div", "chip-tools");
+      var move = el("button", "tool", chip.col === "before" ? "▶" : "◀");
+      move.type = "button";
+      move.title = chip.col === "before" ? "Mover a después de la apertura" : "Mover a antes del 1/11";
+      move.addEventListener("click", function (e) {
+        e.stopPropagation();
+        moveChip(chip.id, chip.lane, chip.col === "before" ? "later" : "before", null);
+      });
+      var edit = el("button", "tool", "✎");
+      edit.type = "button";
+      edit.title = "Editar compromiso";
+      edit.addEventListener("click", function (e) { e.stopPropagation(); openSheet(chip.id); });
+      tools.appendChild(move);
+      tools.appendChild(edit);
+      head.appendChild(tools);
+    }
+
+    node.appendChild(head);
+    if (expanded[chip.id]) node.appendChild(detailNode(chip));
+
+    open.addEventListener("click", function () {
+      expanded[chip.id] = !expanded[chip.id];
+      render();
+    });
+
+    if (canEdit) {
+      node.addEventListener("dragstart", function (e) {
+        e.dataTransfer.setData("text/plain", chip.id);
+        e.dataTransfer.effectAllowed = "move";
+        node.classList.add("dragging");
+      });
+      node.addEventListener("dragend", function () { node.classList.remove("dragging"); clearDropHints(); });
+      node.addEventListener("dragover", function (e) {
+        e.preventDefault(); e.stopPropagation();
+        clearDropHints(); node.classList.add("dropbefore");
+      });
+      node.addEventListener("drop", function (e) {
+        e.preventDefault(); e.stopPropagation();
+        var id = e.dataTransfer.getData("text/plain");
+        clearDropHints();
+        if (id && id !== chip.id) moveChip(id, chip.lane, chip.col, chip.id);
+      });
+    }
+
+    return node;
+  }
+
+  function detailNode(chip) {
+    var d = el("div", "detail");
+    if (chip.sub && chip.sub.length) {
+      var ul = el("ul");
+      chip.sub.forEach(function (s) {
+        var li = el("li");
+        var m = /^([^—]{2,12})\s—\s(.*)$/.exec(s);
+        if (m) {
+          li.appendChild(el("b", null, m[1].trim()));
+          li.appendChild(document.createTextNode(" — " + m[2]));
+        } else { li.textContent = s; }
+        ul.appendChild(li);
+      });
+      d.appendChild(ul);
+    } else {
+      d.appendChild(el("p", "empty", "Sin desglose todavía."));
+    }
+    if (chip.week || chip.dep) {
+      var f = el("div", "facts");
+      if (chip.week) {
+        var s1 = el("span");
+        s1.appendChild(el("b", null, "Semana"));
+        s1.appendChild(document.createTextNode(" " + chip.week));
+        f.appendChild(s1);
+      }
+      if (chip.dep) f.appendChild(el("span", null, chip.dep));
+      d.appendChild(f);
+    }
+    return d;
+  }
+
+  function clearDropHints() {
+    Array.prototype.forEach.call(document.querySelectorAll(".dropbefore"), function (n) { n.classList.remove("dropbefore"); });
+    Array.prototype.forEach.call(document.querySelectorAll(".col.dragover"), function (n) { n.classList.remove("dragover"); });
+  }
+
+  function colNode(lane, col) {
+    var c = el("div", "col " + (col === "before" ? "before" : "later"));
+    c.dataset.lane = lane;
+    c.dataset.col = col;
+    inCol(lane, col).forEach(function (chip) { c.appendChild(chipNode(chip)); });
+
+    if (canEdit) {
+      var add = el("button", "addhere", "+ agregar aquí");
+      add.type = "button";
+      add.addEventListener("click", function () { openSheet(null, lane, col); });
+      c.appendChild(add);
+
+      c.addEventListener("dragover", function (e) { e.preventDefault(); c.classList.add("dragover"); });
+      c.addEventListener("dragleave", function () { c.classList.remove("dragover"); });
+      c.addEventListener("drop", function (e) {
+        e.preventDefault();
+        var id = e.dataTransfer.getData("text/plain");
+        clearDropHints();
+        if (id) moveChip(id, lane, col, null);
+      });
+    }
+    return c;
+  }
+
+  function render() {
+    board.innerHTML = "";
+
+    var head = el("div", "colhead");
+    head.appendChild(el("div"));
+    var h1 = el("div");
+    h1.appendChild(el("h2", null, "Antes del 1 de noviembre"));
+    h1.appendChild(el("span", "sub", "Lo que hay que dejar listo"));
+    head.appendChild(h1);
+    var h2 = el("div", "later deadline-col");
+    h2.appendChild(el("h2", null, "Después de la apertura"));
+    h2.appendChild(el("span", "sub", "Postergable sin costo"));
+    head.appendChild(h2);
+    board.appendChild(head);
+
+    LANES.forEach(function (lane) {
+      var row = el("div", "lane");
+      var name = el("div", "lane-name");
+      name.appendChild(el("span", "n", lane.n));
+      name.appendChild(document.createTextNode(lane.name));
+      row.appendChild(name);
+      row.appendChild(colNode(lane.id, "before"));
+      row.appendChild(colNode(lane.id, "later"));
+      board.appendChild(row);
+    });
+
+    applyFilter();
+    document.getElementById("critcount").textContent =
+      String(state.filter(function (c) { return c.kind === "crit" && c.col === "before"; }).length);
+  }
+
+  function applyFilter() {
+    Array.prototype.forEach.call(document.querySelectorAll(".chip"), function (n) {
+      var chip = byId(n.dataset.id);
+      if (!chip) return;
+      var has = !filter || chip.lead === filter || (chip.people || []).indexOf(filter) > -1;
+      n.classList.toggle("dim", !has);
+    });
+  }
+
+  function moveChip(id, lane, col, beforeId) {
+    var chip = byId(id);
+    if (!chip) return;
+    var target = inCol(lane, col).filter(function (c) { return c.id !== id; });
+    var newOrder;
+    if (beforeId) {
+      var idx = -1;
+      for (var i = 0; i < target.length; i++) if (target[i].id === beforeId) { idx = i; break; }
+      if (idx === 0) newOrder = (target[0].order || 1) - 1;
+      else if (idx > 0) newOrder = ((target[idx - 1].order || 0) + (target[idx].order || 0)) / 2;
+      else newOrder = target.length ? (target[target.length - 1].order || 0) + 1 : 1;
+    } else {
+      newOrder = target.length ? (target[target.length - 1].order || 0) + 1 : 1;
+    }
+    if (chip.lane === lane && chip.col === col && chip.order === newOrder) return;
+    chip.lane = lane; chip.col = col; chip.order = newOrder;
+    queueWrite("set", chip);
+    cacheSave();
+    render();
+  }
+
+  /* ---------- editor ---------- */
+  var overlay = null;
+  function closeSheet() {
+    if (overlay) { overlay.remove(); overlay = null; }
+    document.removeEventListener("keydown", escClose);
+  }
+  function escClose(e) { if (e.key === "Escape") closeSheet(); }
+
+  function openSheet(id, laneDefault, colDefault) {
+    if (!canEdit) return;
+    closeSheet();
+    var isNew = !id;
+    var chip = isNew
+      ? { id: newId(), lane: laneDefault || "mkt", col: colDefault || "before", kind: "crit",
+          title: "", lead: "D", people: [], week: "", dep: "", sub: [], order: 0 }
+      : clone(byId(id));
+    if (!chip) return;
+
+    overlay = el("div", "overlay");
+    var sheet = el("div", "sheet");
+    sheet.setAttribute("role", "dialog");
+    sheet.setAttribute("aria-modal", "true");
+    sheet.appendChild(el("h2", null, isNew ? "Nuevo compromiso" : "Editar compromiso"));
+
+    function field(labelText, control, id2) {
+      var f = el("div", "field");
+      var l = el("label", null, labelText);
+      l.setAttribute("for", id2);
+      f.appendChild(l); f.appendChild(control);
+      return f;
+    }
+
+    var title = el("input");
+    title.type = "text"; title.id = "f-title"; title.value = chip.title;
+    title.placeholder = "Ej.: Pricing público";
+    sheet.appendChild(field("Nombre del compromiso", title, "f-title"));
+
+    var two = el("div", "two");
+    var laneSel = el("select"); laneSel.id = "f-lane";
+    LANES.forEach(function (l) {
+      var o = el("option", null, l.name); o.value = l.id;
+      if (l.id === chip.lane) o.selected = true;
+      laneSel.appendChild(o);
+    });
+    var colSel = el("select"); colSel.id = "f-col";
+    [["before", "Antes del 1 nov"], ["later", "Después de la apertura"]].forEach(function (p) {
+      var o = el("option", null, p[1]); o.value = p[0];
+      if (p[0] === chip.col) o.selected = true;
+      colSel.appendChild(o);
+    });
+    two.appendChild(field("Carril", laneSel, "f-lane"));
+    two.appendChild(field("Columna", colSel, "f-col"));
+    sheet.appendChild(two);
+
+    var two2 = el("div", "two");
+    var kindSel = el("select"); kindSel.id = "f-kind";
+    [["crit", "Crítico"], ["want", "Deseable"], ["out", "Fuera del hito"]].forEach(function (p) {
+      var o = el("option", null, p[1]); o.value = p[0];
+      if (p[0] === chip.kind) o.selected = true;
+      kindSel.appendChild(o);
+    });
+    var week = el("input"); week.type = "text"; week.id = "f-week";
+    week.value = chip.week || ""; week.placeholder = "1–2";
+    two2.appendChild(field("Estado", kindSel, "f-kind"));
+    two2.appendChild(field("Semana", week, "f-week"));
+    sheet.appendChild(two2);
+
+    var pf = el("div", "field");
+    pf.appendChild(el("span", "grouplabel", "Quiénes intervienen · líder"));
+    var ptable = el("div", "ptable");
+    PORDER.forEach(function (p) {
+      var row = el("div", "prow");
+      var l1 = el("label");
+      var cb = el("input"); cb.type = "checkbox"; cb.value = p; cb.className = "p-check";
+      cb.checked = chip.lead === p || (chip.people || []).indexOf(p) > -1;
+      l1.appendChild(cb); l1.appendChild(document.createTextNode(PEOPLE[p]));
+      var l2 = el("label", "leadlab");
+      var rb = el("input"); rb.type = "radio"; rb.name = "lead"; rb.value = p; rb.className = "p-lead";
+      rb.checked = chip.lead === p;
+      l2.appendChild(rb); l2.appendChild(document.createTextNode("líder"));
+      rb.addEventListener("change", function () { if (rb.checked) cb.checked = true; });
+      cb.addEventListener("change", function () { if (!cb.checked && rb.checked) rb.checked = false; });
+      row.appendChild(l1); row.appendChild(l2);
+      ptable.appendChild(row);
+    });
+    pf.appendChild(ptable);
+    pf.appendChild(el("span", "hint", "El líder aparece con el círculo relleno, primero en el chip."));
+    sheet.appendChild(pf);
+
+    var dep = el("input"); dep.type = "text"; dep.id = "f-dep"; dep.value = chip.dep || "";
+    dep.placeholder = "Depende de: pricing público";
+    sheet.appendChild(field("Dependencia o nota", dep, "f-dep"));
+
+    var sub = el("textarea"); sub.id = "f-sub";
+    sub.value = (chip.sub || []).join("\n");
+    sub.placeholder = "Una subtarea por línea.\nManu — revisar el pricing\nTomás — publicar la página";
+    sheet.appendChild(field("Subtareas (una por línea)", sub, "f-sub"));
+
+    var actions = el("div", "sheet-actions");
+    var save = el("button", "primarybtn", isNew ? "Crear" : "Guardar");
+    save.type = "button";
+    save.addEventListener("click", function () {
+      var t = title.value.trim();
+      if (!t) { title.focus(); return; }
+      chip.title = t;
+      chip.lane = laneSel.value;
+      chip.col = colSel.value;
+      chip.kind = kindSel.value;
+      chip.week = week.value.trim();
+      chip.dep = dep.value.trim();
+      chip.sub = sub.value.split("\n").map(function (s) { return s.trim(); }).filter(Boolean);
+      var checked = [];
+      Array.prototype.forEach.call(sheet.querySelectorAll(".p-check"), function (c) { if (c.checked) checked.push(c.value); });
+      var leadEl = sheet.querySelector(".p-lead:checked");
+      chip.lead = leadEl ? leadEl.value : (checked[0] || "");
+      chip.people = checked.filter(function (p) { return p !== chip.lead; });
+      if (isNew || !chip.order) {
+        var sib = inCol(chip.lane, chip.col).filter(function (c) { return c.id !== chip.id; });
+        chip.order = sib.length ? (sib[sib.length - 1].order || 0) + 1 : 1;
+      }
+      var existing = byId(chip.id);
+      if (existing) {
+        Object.keys(chip).forEach(function (k) { existing[k] = chip[k]; });
+        queueWrite("set", existing);
+      } else {
+        state.push(chip);
+        queueWrite("set", chip);
+      }
+      cacheSave();
+      closeSheet();
+      render();
+    });
+    actions.appendChild(save);
+
+    var cancel = el("button", "ghostbtn", "Cancelar");
+    cancel.type = "button";
+    cancel.addEventListener("click", closeSheet);
+    actions.appendChild(cancel);
+    actions.appendChild(el("div", "spacer"));
+
+    if (!isNew) {
+      var del = el("button", "dangerbtn", "Eliminar");
+      del.type = "button";
+      del.addEventListener("click", function () {
+        del.textContent = "¿Seguro? Toca de nuevo";
+        del.onclick = function () { closeSheet(); removeChip(chip.id); };
+      });
+      actions.appendChild(del);
+    }
+
+    sheet.appendChild(actions);
+    overlay.appendChild(sheet);
+    overlay.addEventListener("click", function (e) { if (e.target === overlay) closeSheet(); });
+    document.body.appendChild(overlay);
+    document.addEventListener("keydown", escClose);
+    title.focus();
+  }
+
+  /* ---------- arranque ---------- */
+  var m = /(?:^|[#&])edit=([^&]+)/.exec(location.hash || "");
+  if (m) { editKey = decodeURIComponent(m[1]); canEdit = true; }
+
+  if (canEdit) {
+    Array.prototype.forEach.call(document.querySelectorAll(".editonly"), function (n) { n.hidden = false; });
+    var link = document.getElementById("sheetLink");
+    if (link) link.href = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/edit";
+    document.getElementById("usoBody").innerHTML =
+      "<p>Arrastra un chip de una columna a la otra, o usa <b>◀ ▶</b> para moverlo. <b>✎</b> abre el compromiso para editar nombre, estado, participantes y líder. <b>+ Compromiso</b> crea uno nuevo.</p>" +
+      "<p>Todo lo que cambies se guarda en el Sheet. Quien abra el link sin clave ve el tablero, pero no puede editarlo.</p>";
+  }
+
+  document.getElementById("addBtn").addEventListener("click", function () { openSheet(null, "mkt", "before"); });
+  document.getElementById("refreshBtn").addEventListener("click", function () { fetchRows(false); });
+
+  var allBtn = document.getElementById("toggleAll");
+  allBtn.addEventListener("click", function () {
+    var next = allBtn.getAttribute("aria-pressed") !== "true";
+    allBtn.setAttribute("aria-pressed", String(next));
+    allBtn.textContent = next ? "Contraer todo" : "Expandir todo";
+    expanded = {};
+    if (next) state.forEach(function (c) { expanded[c.id] = true; });
+    render();
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll(".pbtn"), function (b) {
+    b.addEventListener("click", function () {
+      filter = filter === b.dataset.p ? null : b.dataset.p;
+      Array.prototype.forEach.call(document.querySelectorAll(".pbtn"), function (o) {
+        o.setAttribute("aria-pressed", String(o.dataset.p === filter));
+      });
+      applyFilter();
+    });
+  });
+
+  var target = new Date(2026, 10, 1);
+  var now = new Date();
+  var days = Math.round((target - new Date(now.getFullYear(), now.getMonth(), now.getDate())) / 86400000);
+  if (days > 0) {
+    var w = Math.ceil(days / 7);
+    document.getElementById("left").textContent = days + " días · " + w + " semana" + (w === 1 ? "" : "s");
+  }
+
+  // Primero lo que ya venía en el archivo, después la caché, después el Sheet.
+  adoptRows(FALLBACK_ROWS);
+  var cached = cacheLoad();
+  if (cached) adoptRows(cached.rows);
+  render();
+  fetchRows(false);
+
+  setInterval(function () { if (!overlay && !pending.length) fetchRows(true); }, 60000);
+  window.addEventListener("focus", function () { if (!overlay && !pending.length) fetchRows(true); });
+})();
+</script>
+</body>
+</html>
