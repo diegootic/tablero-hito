@@ -42,6 +42,13 @@ img, svg { max-width: 100%; }
   --ember-line: rgba(232, 66, 29, .38);
   --ember-fill: rgba(232, 66, 29, .10);
 
+  /* Avance. --ok es el verde "valid" del manual; --ok-soft es su versión
+     aclarada para leerse sobre superficie oscura (derivado, no está en DESIGN.md). */
+  --ok: #3D7A4E;
+  --ok-soft: #7DBE93;
+  --doing-wash: rgba(104, 101, 169, .28);
+  --done-wash: rgba(61, 122, 78, .22);
+
   /* Tipografía */
   --font-display: "Flecha M", "Flecha S", "Montaga", Georgia, serif;
   --font-body: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -213,10 +220,87 @@ h1 {
 .swatch { width: 9px; height: 3px; border-radius: 2px; display: inline-block; }
 .swatch.c { background: var(--ember); }
 .swatch.d { background: rgba(233, 228, 220, .32); }
+.legend .mk { display: inline-flex; align-items: center; gap: 6px; }
+.legend .mk svg { display: block; }
+.legend .mk[data-mark="doing"] svg { color: var(--indigo-soft); }
+.legend .mk[data-mark="done"] svg { color: var(--ok-soft); }
 .swatch.o { background: transparent; border-top: 1px dashed var(--line); height: 0; width: 12px; }
 
+/* ---------- pestañas ---------- */
+.tabs {
+  display: flex;
+  gap: 8px 36px;
+  margin-top: 34px;
+  border-bottom: 1px solid var(--line);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 0 0 12px;
+  margin-bottom: -1px;
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  text-align: left;
+  color: var(--muted);
+  transition: color .18s, border-color .18s;
+}
+.tab:hover { color: var(--text); }
+.tab[aria-selected="true"] { color: var(--text); border-bottom-color: var(--indigo-soft); }
+.tab-name {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 1.1;
+  letter-spacing: -.03em;
+}
+.tab .cnt {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ember);
+}
+.tab .cnt.zero { color: var(--ok-soft); }
+.tabnote { margin: 14px 0 0; font-size: 15px; color: var(--muted); max-width: var(--measure); min-height: 1.55em; }
+
+/* ---------- progreso ---------- */
+.meta .prog { min-width: 220px; }
+.bar { height: 4px; width: 100%; border-radius: 4px; background: var(--well); box-shadow: var(--well-inset); overflow: hidden; margin-top: 5px; }
+.bar i { display: block; height: 100%; width: 0; background: var(--ok-soft); border-radius: 4px; transition: width .4s var(--arrive); }
+.meta .prog .v { font-size: 14px; }
+
+.loading { margin: 40px 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: .04em; color: var(--muted); }
+
+/* ---------- aviso ---------- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translate(-50%, 12px);
+  max-width: min(480px, calc(100vw - 32px));
+  background: var(--ink-soft);
+  color: var(--text);
+  font-size: 14px;
+  padding: 12px 18px;
+  border-radius: var(--radius-panel);
+  box-shadow: var(--shadow-float);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s, transform .3s var(--arrive);
+  z-index: 60;
+}
+.toast.on { opacity: 1; transform: translate(-50%, 0); }
+
 /* ---------- tablero ---------- */
-.board { margin-top: 34px; }
+.board { margin-top: 22px; }
 .colhead {
   display: grid;
   grid-template-columns: 168px 1fr 1fr;
@@ -284,18 +368,52 @@ h1 {
 
 /* ---------- chips ---------- */
 .chip {
+  --drop: 0 0 0 0 transparent;
+  --edge: inset 0 0 0 0 transparent;
+  --ring: inset 0 0 0 0 transparent;
   background: var(--ink-soft);
   border-radius: var(--radius-panel);
-  box-shadow: var(--shadow-panel);
+  box-shadow: var(--drop), var(--edge), var(--ring), var(--shadow-panel);
   overflow: hidden;
-  transition: opacity .18s, box-shadow .18s;
+  transition: opacity .18s, box-shadow .18s, background-color .18s;
 }
-.chip.crit { box-shadow: inset 3px 0 0 var(--ember), var(--shadow-panel); }
+/* El borde ember marca lo crítico que sigue abierto; al estar Listo se apaga. */
+.chip.crit:not(.av-done) { --edge: inset 3px 0 0 var(--ember); }
+.chip.av-doing {
+  background: linear-gradient(var(--doing-wash), var(--doing-wash)), var(--ink-soft);
+  --ring: inset 0 0 0 1px rgba(139, 135, 255, .32);
+}
+.chip.av-done {
+  background: linear-gradient(var(--done-wash), var(--done-wash)), var(--ink-soft);
+  --ring: inset 0 0 0 1px rgba(125, 190, 147, .30);
+}
+.chip.av-done .chip-title { color: var(--muted); }
 .chip.out { background: transparent; border: 1px dashed var(--line); box-shadow: none; }
+.chip.out.dropbefore { box-shadow: var(--drop); }
 .chip.dim { opacity: .26; }
 .chip.dragging { opacity: .4; }
-.chip.dropbefore { box-shadow: 0 -3px 0 -1px var(--indigo-soft), var(--shadow-panel); }
-.chip.crit.dropbefore { box-shadow: 0 -3px 0 -1px var(--indigo-soft), inset 3px 0 0 var(--ember), var(--shadow-panel); }
+.chip.dropbefore { --drop: 0 -3px 0 -1px var(--indigo-soft); }
+
+/* ---------- marca de avance ---------- */
+.mark {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  margin-top: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  color: var(--muted);
+}
+.mark svg { display: block; }
+.mark.av-doing { color: var(--indigo-soft); }
+.mark.av-done { color: var(--ok-soft); }
+button.mark { cursor: pointer; transition: transform .18s var(--arrive), color .18s; }
+button.mark:hover { transform: scale(1.12); }
+button.mark:active { transform: scale(.94); }
 
 .chip-head { display: flex; align-items: flex-start; gap: 8px; padding: 12px 12px 12px 14px; }
 .chip-open {
@@ -507,6 +625,8 @@ h1 {
   .col.later::before { content: "Después de la apertura"; padding-top: 6px; border-top: 1px solid var(--ember-line); }
   .two { grid-template-columns: 1fr; }
   .lede { font-size: 18px; }
+  .tab-name { font-size: 22px; }
+  .tabs { gap: 8px 24px; margin-inline: -20px; padding-inline: 20px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -546,7 +666,8 @@ h1 {
   <div class="meta">
     <div><span class="k">Fecha del hito</span><span class="v">Sáb 1 nov 2026</span></div>
     <div><span class="k">Restan</span><span class="v hot" id="left">40 días</span></div>
-    <div><span class="k">Críticos abiertos</span><span class="v" id="critcount">14</span></div>
+    <div><span class="k">Críticos abiertos</span><span class="v" id="critcount">–</span></div>
+    <div class="prog"><span class="k">Avance antes del 1 nov</span><span class="v" id="progtxt">–</span><div class="bar"><i id="progbar"></i></div></div>
   </div>
 
   <div class="controls">
@@ -570,9 +691,16 @@ h1 {
     <span><i class="swatch d"></i> Deseable: suma, pero no bloquea</span>
     <span><i class="swatch o"></i> Fuera del hito: calendario propio</span>
     <span>Círculo relleno = líder</span>
+    <span class="mk" data-mark="todo">Por empezar</span>
+    <span class="mk" data-mark="doing">En curso</span>
+    <span class="mk" data-mark="done">Listo</span>
   </div>
 
+  <div class="tabs" id="tabs" role="tablist" aria-label="Vistas del tablero"></div>
+  <p class="tabnote" id="tabnote"></p>
+
   <div class="board" id="board"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <div class="notes">
     <h3>Cómo usarlo</h3>
@@ -585,6 +713,7 @@ h1 {
 
 <script>
 /* Copia incluida en el archivo: lo que se muestra si el Sheet no responde. */
+var BUILD_DATE = "1 de octubre de 2026";
 var FALLBACK_ROWS = [
  {
   "id": "mkt-pricing",
@@ -597,7 +726,8 @@ var FALLBACK_ROWS = [
   "semana": "1–2",
   "dependencia": "Bloquea: sign-up · guion de venta · anuncio",
   "subtareas": "Manu — revisar el pricing ya trabajado: planes, límites y precios\nManu — ajustar la información que quedó desalineada\nTomás — publicar la página de pricing\nTomás — linkearla desde el sitio y desde el sign-up",
-  "orden": 1
+  "orden": 1,
+  "avance": "Por empezar"
  },
  {
   "id": "mkt-docs",
@@ -606,24 +736,12 @@ var FALLBACK_ROWS = [
   "estado": "Crítico",
   "titulo": "Documentación publicada",
   "lider": "Tomás",
-  "participantes": "Diego, Alexis",
+  "participantes": "Caro, Alexis",
   "semana": "2–3",
   "dependencia": "Bloquea: auto-atención de soporte",
-  "subtareas": "Alexis — revisión básica de la documentación de API (ya existe)\nDiego — complementar la documentación de cliente final\nTomás — publicar ambas y linkearlas desde el sitio",
-  "orden": 2
- },
- {
-  "id": "mkt-logos",
-  "carril": "Marketing / Web",
-  "columna": "Antes",
-  "estado": "Deseable",
-  "titulo": "Prueba social en la web ES",
-  "lider": "Diego",
-  "participantes": "Manu",
-  "semana": "3",
-  "dependencia": "",
-  "subtareas": "Elegir 2 clientes representativos para quien llegue al sitio\nManu — pedir la autorización de uso de marca\nDiego — subir los logos a la web en español",
-  "orden": 3
+  "subtareas": "Alexis — revisión básica de la documentación de API (ya existe)\nCaro — complementar la documentación de cliente final\nTomás — publicar ambas y linkearlas desde el sitio",
+  "orden": 2.5,
+  "avance": "Por empezar"
  },
  {
   "id": "mkt-linkedin",
@@ -631,12 +749,13 @@ var FALLBACK_ROWS = [
   "columna": "Antes",
   "estado": "Crítico",
   "titulo": "Anuncio de apertura en LinkedIn",
-  "lider": "Manu",
-  "participantes": "Tomás, Diego",
+  "lider": "Tomás",
+  "participantes": "Diego, Manu",
   "semana": "6",
   "dependencia": "Depende de: pricing público · QA del alta",
   "subtareas": "Definir el mensaje: qué abre, para quién y qué cambia respecto de hoy\nPosts desde los perfiles de los 3 + la página de Bolder\nPublicar el 1/11, no antes",
-  "orden": 4
+  "orden": 4,
+  "avance": "Por empezar"
  },
  {
   "id": "mkt-hn",
@@ -649,7 +768,8 @@ var FALLBACK_ROWS = [
   "semana": "",
   "dependencia": "",
   "subtareas": "Show HN con el ángulo técnico: headless y casi 20 años de plataforma\nElegir día y hora, y tener preparadas las respuestas del hilo\nRequiere alta estable y documentación de API decente",
-  "orden": 1
+  "orden": 1,
+  "avance": "Por empezar"
  },
  {
   "id": "mkt-prensa",
@@ -662,20 +782,8 @@ var FALLBACK_ROWS = [
   "semana": "",
   "dependencia": "",
   "subtareas": "Lista de podcasts, medios y newsletters de ecommerce LATAM\nContactar potenciales entrevistados con el caso ya abierto",
-  "orden": 2
- },
- {
-  "id": "prod-bloq",
-  "carril": "Producto",
-  "columna": "Antes",
-  "estado": "Crítico",
-  "titulo": "Bloqueantes de salida definidos",
-  "lider": "Tomás",
-  "participantes": "Alexis, Diego",
-  "semana": "1",
-  "dependencia": "Bloquea: todo el carril de Producto",
-  "subtareas": "Listar los candidatos: nuevo checkout para todos, nuevo admin, lo que falte\nDecidir cuáles bloquean la apertura y cuáles conviven con ella\nResponsable y fecha por cada bloqueante que quede dentro",
-  "orden": 1
+  "orden": 2,
+  "avance": "Por empezar"
  },
  {
   "id": "prod-signup",
@@ -683,25 +791,13 @@ var FALLBACK_ROWS = [
   "columna": "Antes",
   "estado": "Crítico",
   "titulo": "Flujo de sign-up sin fricción",
-  "lider": "Alexis",
-  "participantes": "Tomás, Diego",
+  "lider": "Tomás",
+  "participantes": "Diego, Alexis",
   "semana": "1–4",
   "dependencia": "Ruta crítica · depende de pricing y T&C",
-  "subtareas": "Revisar el flujo actual: existe, pero es básico y pasa por el equipo\nLevantar las observaciones y traspasarlas a desarrollo\nPriorizar e implementar: alta directa hasta admin + dominio bolder.shop\nConectar el medio de pago (ya activo) al alta\nIncorporar la aceptación de T&C dentro del flujo",
-  "orden": 2
- },
- {
-  "id": "prod-cerrar",
-  "carril": "Producto",
-  "columna": "Antes",
-  "estado": "Crítico",
-  "titulo": "Cerrar los bloqueantes",
-  "lider": "Tomás",
-  "participantes": "Alexis",
-  "semana": "2–5",
-  "dependencia": "Depende de: bloqueantes definidos",
-  "subtareas": "Ejecutar lo que quedó dentro: nuevo checkout y/o nuevo admin\nCorte semana 5: lo que no esté, sale a la columna de la derecha",
-  "orden": 3
+  "subtareas": "Revisar el flujo actual: existe, pero es básico y pasa por el equipo\nLevantar las observaciones y traspasarlas a desarrollo\nPriorizar e implementar: alta directa hasta admin + dominio bolder.shop\nIncorporar la aceptación de T&C dentro del flujo",
+  "orden": 2,
+  "avance": "Por empezar"
  },
  {
   "id": "prod-qa",
@@ -709,12 +805,13 @@ var FALLBACK_ROWS = [
   "columna": "Antes",
   "estado": "Crítico",
   "titulo": "QA end-to-end del alta",
-  "lider": "Alexis",
-  "participantes": "Caro, Diego",
+  "lider": "Diego",
+  "participantes": "Caro, Alexis",
   "semana": "5",
   "dependencia": "Depende de: sign-up · bloqueantes",
   "subtareas": "Alta completa sin que intervenga nadie: registro → pago → admin → tienda en dominio\nProbar en móvil y con alguien ajeno al equipo mirando\nLista de errores conocidos y acuerdo de con cuáles salimos igual",
-  "orden": 4
+  "orden": 4,
+  "avance": "Por empezar"
  },
  {
   "id": "prod-iterar",
@@ -727,7 +824,8 @@ var FALLBACK_ROWS = [
   "semana": "",
   "dependencia": "",
   "subtareas": "Dónde abandonan los primeros clientes self-service\nAjustes de fricción con los primeros 10 registros en la mano",
-  "orden": 1
+  "orden": 1,
+  "avance": "Por empezar"
  },
  {
   "id": "prod-migrar",
@@ -740,7 +838,8 @@ var FALLBACK_ROWS = [
   "semana": "",
   "dependencia": "",
   "subtareas": "Solo si no quedó como bloqueante en la semana 1\nPlan de migración por tandas, avisando a cada cliente",
-  "orden": 2
+  "orden": 2,
+  "avance": "Por empezar"
  },
  {
   "id": "chp-soporte",
@@ -753,20 +852,22 @@ var FALLBACK_ROWS = [
   "semana": "2–5",
   "dependencia": "Depende de: documentación de cliente final",
   "subtareas": "Definir por dónde entra el cliente self-service, que no llega por Slack\nFAQ y respuestas automáticas para lo repetitivo\nReglas de derivación: qué resuelve Caro, qué va a Alexis, qué escala\nTiempo de respuesta que comprometemos y quién lo mira",
-  "orden": 1
+  "orden": 1,
+  "avance": "Por empezar"
  },
  {
   "id": "chp-postalta",
   "carril": "Customer Happiness",
-  "columna": "Antes",
-  "estado": "Crítico",
+  "columna": "Después",
+  "estado": "Deseable",
   "titulo": "Seguimiento post-alta",
   "lider": "Caro",
   "participantes": "Manu",
   "semana": "4–5",
   "dependencia": "Depende de: sign-up funcionando",
   "subtareas": "Quién se entera cuando entra un cliente nuevo: alerta automática a Slack\nContacto en día 1 y día 7, y qué se le pregunta en cada uno\nCriterio para pasarlo a Manu como oportunidad comercial",
-  "orden": 2
+  "orden": 4,
+  "avance": "Por empezar"
  },
  {
   "id": "chp-deriv",
@@ -779,7 +880,8 @@ var FALLBACK_ROWS = [
   "semana": "",
   "dependencia": "",
   "subtareas": "Reclasificar los tickets reales de las primeras semanas\nAutomatizar lo que se repita, no lo que suponemos que se va a repetir",
-  "orden": 1
+  "orden": 1,
+  "avance": "Por empezar"
  },
  {
   "id": "chp-estandar",
@@ -792,20 +894,22 @@ var FALLBACK_ROWS = [
   "semana": "",
   "dependencia": "",
   "subtareas": "Escribir el estándar antes de que el volumen lo defina solo\nEvolución del rol hacia happiness proactivo, con carga acotada",
-  "orden": 2
+  "orden": 2,
+  "avance": "Por empezar"
  },
  {
   "id": "chp-semaforo",
   "carril": "Customer Happiness",
-  "columna": "Después",
-  "estado": "Deseable",
+  "columna": "Antes",
+  "estado": "Crítico",
   "titulo": "Semáforo de clientes",
   "lider": "Diego",
   "participantes": "Caro",
   "semana": "",
   "dependencia": "",
   "subtareas": "Terminar el verde / amarillo / rojo ya iniciado\nAnticipar churn de la cartera actual mientras entran los nuevos",
-  "orden": 3
+  "orden": 2,
+  "avance": "Por empezar"
  },
  {
   "id": "sales-guion",
@@ -818,33 +922,36 @@ var FALLBACK_ROWS = [
   "semana": "3–4",
   "dependencia": "Depende de: pricing público",
   "subtareas": "El discurso cambia cuando el precio es público: ajustarlo antes, no después\nRespuesta a \"¿por qué esto y no Shopify?\" con el precio en pantalla\nQué se hace con el lead que ya se dio de alta solo",
-  "orden": 1
+  "orden": 1,
+  "avance": "Por empezar"
  },
  {
   "id": "sales-ref",
   "carril": "Sales / BizDev",
   "columna": "Antes",
-  "estado": "Deseable",
+  "estado": "Crítico",
   "titulo": "Estructura de referidos",
   "lider": "Manu",
-  "participantes": "Diego",
+  "participantes": "Diego, Caro",
   "semana": "2–3",
   "dependencia": "",
   "subtareas": "Ficha de captura: qué información se le pide a quien refiere para que sirva\nCómo y en cuánto tiempo se traspasa al agente comercial\nDónde queda registrado y quién hace el seguimiento\nCasos vivos para probarla: Canal Cero, Manuel Suárez, Entre Lagos",
-  "orden": 2
+  "orden": 2,
+  "avance": "Por empezar"
  },
  {
   "id": "sales-out",
   "carril": "Sales / BizDev",
   "columna": "Antes",
-  "estado": "Deseable",
+  "estado": "Crítico",
   "titulo": "Estructura outbound con metas",
   "lider": "Manu",
-  "participantes": "Tomás",
+  "participantes": "",
   "semana": "2–4",
   "dependencia": "",
   "subtareas": "Meta de clientes nuevos por mes, y desde ahí la cadena hacia atrás\nCuántos leads contactar, tasa de respuesta y tasa de cierre esperadas\nFuentes (WhatsApp, Google Maps) y dónde se registra cada contacto",
-  "orden": 3
+  "orden": 3,
+  "avance": "Por empezar"
  },
  {
   "id": "sales-tracks",
@@ -857,7 +964,8 @@ var FALLBACK_ROWS = [
   "semana": "",
   "dependencia": "Meta mensual propia",
   "subtareas": "Outbound (velociraptores), B2B (brontosaurios) y referidos corren con su propia meta mensual\nNo entran al Gantt del hito: solo su estructura, que está en la columna de la izquierda",
-  "orden": 1
+  "orden": 1,
+  "avance": "Por empezar"
  },
  {
   "id": "fin-tyc",
@@ -870,7 +978,8 @@ var FALLBACK_ROWS = [
   "semana": "1–4",
   "dependencia": "Bloquea: el sign-up",
   "subtareas": "Cerrar lo que falta de los documentos, que están avanzados\nRevisión legal externa: estructura Fork y subprocesadores del DPA\nPublicarlos en el sitio y linkearlos\nAceptación explícita dentro del alta, no en un PDF aparte",
-  "orden": 1
+  "orden": 1,
+  "avance": "Por empezar"
  },
  {
   "id": "fin-cobro",
@@ -883,7 +992,8 @@ var FALLBACK_ROWS = [
   "semana": "2–4",
   "dependencia": "Depende de: pricing definido",
   "subtareas": "El medio de pago ya está activo: definir cómo se conecta al flujo\n¿Hay trial? ¿Cuándo se cobra el primer mes? ¿Qué pasa si el cobro falla?\nEmisión del documento tributario al cliente nuevo desde el día uno",
-  "orden": 2
+  "orden": 2,
+  "avance": "Por empezar"
  },
  {
   "id": "fin-factura",
@@ -896,7 +1006,8 @@ var FALLBACK_ROWS = [
   "semana": "",
   "dependencia": "",
   "subtareas": "Emisión y envío automáticos a toda la cartera, no solo a los nuevos\nVa después porque el volumen del primer mes se aguanta a mano",
-  "orden": 1
+  "orden": 1,
+  "avance": "Por empezar"
  },
  {
   "id": "fin-proy",
@@ -909,7 +1020,8 @@ var FALLBACK_ROWS = [
   "semana": "",
   "dependencia": "",
   "subtareas": "Simplificar la proyección financiera y el tracking de pagos\nActualizar la proyección de ingresos con la información comercial de todos los tracks\nRevisar el supuesto de sueldos de noviembre contra las tiendas que realmente entren",
-  "orden": 2
+  "orden": 2,
+  "avance": "Por empezar"
  },
  {
   "id": "fin-tools",
@@ -922,59 +1034,106 @@ var FALLBACK_ROWS = [
   "semana": "",
   "dependencia": "",
   "subtareas": "Contratar la suscripción de equipo de Claude para todas las áreas\nRevisar el plan de Slack: hoy se paga de más por los clientes incluidos",
-  "orden": 3
+  "orden": 3,
+  "avance": "Por empezar"
  },
  {
-  "id": "proj-duenio",
+  "id": "cmucq4d3qods",
   "carril": "Projects",
   "columna": "Antes",
   "estado": "Crítico",
-  "titulo": "Dueño del plan y alerta temprana",
+  "titulo": "Ecommerce Yves Rocher",
   "lider": "Diego",
-  "participantes": "",
-  "semana": "1",
-  "dependencia": "Cadencia: viernes",
-  "subtareas": "Quién levanta la mano cuando un carril se atrasa, y con cuánta anticipación\nCheckpoint del hito los viernes, 15 minutos, sobre este mismo tablero\nUn solo tablero visible para los 5, no una versión por persona",
-  "orden": 1
- },
- {
-  "id": "proj-capacidad",
-  "carril": "Projects",
-  "columna": "Antes",
-  "estado": "Crítico",
-  "titulo": "Proteger las últimas dos semanas",
-  "lider": "Diego",
-  "participantes": "Tomás, Alexis",
-  "semana": "3",
-  "dependencia": "Riesgo: el equipo técnico es el mismo de los proyectos",
-  "subtareas": "Revisar los compromisos con clientes entre el 20/10 y el 1/11\nMover lo que se pueda mover y avisar a tiempo lo que no\nAlexis y Tomás con holgura real para QA y bloqueantes",
-  "orden": 2
- },
- {
-  "id": "proj-adelantar",
-  "carril": "Projects",
-  "columna": "Antes",
-  "estado": "Deseable",
-  "titulo": "Decisión de adelantar la fecha",
-  "lider": "Diego",
-  "participantes": "Tomás, Manu",
-  "semana": "3",
+  "participantes": "Caro",
+  "semana": "",
   "dependencia": "",
-  "subtareas": "Punto de control el viernes 9/10, al cierre de la semana 3\nSe adelanta solo si los cuatro críticos de Producto están cerrados o a la vista\nSi se adelanta, el anuncio se mueve con la fecha, no al revés",
-  "orden": 3
+  "subtareas": "",
+  "orden": 1,
+  "avance": "Por empezar"
  },
  {
-  "id": "proj-clientes",
+  "id": "cmucq4z2dmgb",
   "carril": "Projects",
+  "columna": "Antes",
+  "estado": "Crítico",
+  "titulo": "Integración Brevo",
+  "lider": "Diego",
+  "participantes": "Tomás",
+  "semana": "",
+  "dependencia": "",
+  "subtareas": "",
+  "orden": 2,
+  "avance": "Por empezar"
+ },
+ {
+  "id": "cmucq5grr1fh",
+  "carril": "Projects",
+  "columna": "Antes",
+  "estado": "Crítico",
+  "titulo": "Nuevo ARQ+",
+  "lider": "Diego",
+  "participantes": "Tomás",
+  "semana": "",
+  "dependencia": "",
+  "subtareas": "",
+  "orden": 3,
+  "avance": "Por empezar"
+ },
+ {
+  "id": "cmucq87iwyww",
+  "carril": "Projects",
+  "columna": "Antes",
+  "estado": "Crítico",
+  "titulo": "Integración ITAM",
+  "lider": "Caro",
+  "participantes": "Diego, Alexis",
+  "semana": "",
+  "dependencia": "",
+  "subtareas": "",
+  "orden": 4,
+  "avance": "Por empezar"
+ },
+ {
+  "id": "cmucqae78if1",
+  "carril": "Producto",
+  "columna": "Antes",
+  "estado": "Crítico",
+  "titulo": "Admin v3 Beta",
+  "lider": "Tomás",
+  "participantes": "Manu",
+  "semana": "",
+  "dependencia": "",
+  "subtareas": "",
+  "orden": 5,
+  "avance": "Por empezar"
+ },
+ {
+  "id": "cmucqbzku31s",
+  "carril": "Producto",
   "columna": "Después",
-  "estado": "Fuera del hito",
-  "titulo": "Proyectos con clientes: Knop, Yves Rocher, ARQ+",
+  "estado": "Deseable",
+  "titulo": "Integración SII",
   "lider": "Diego",
   "participantes": "Tomás, Alexis",
   "semana": "",
-  "dependencia": "Gantt propio por proyecto",
-  "subtareas": "Cada proyecto mantiene sus fechas comprometidas con el cliente\nSolo entran al hito por la capacidad técnica que consumen",
-  "orden": 1
+  "dependencia": "",
+  "subtareas": "",
+  "orden": 3,
+  "avance": "Por empezar"
+ },
+ {
+  "id": "cmucqdm2cnq3",
+  "carril": "Finanzas / Admin",
+  "columna": "Antes",
+  "estado": "Deseable",
+  "titulo": "Representante legal Bolder",
+  "lider": "Tomás",
+  "participantes": "Diego",
+  "semana": "",
+  "dependencia": "",
+  "subtareas": "avanzar en el traspaso a Diego\nde no tenerlo bloquea postulaciones y otros trámites que ralentizan la administración actual",
+  "orden": 3,
+  "avance": "Por empezar"
  }
 ];
 </script>
@@ -993,21 +1152,35 @@ var FALLBACK_ROWS = [
   /* ============================================================ */
 
   var LANES = [
-    { id: "mkt",   n: "01", name: "Marketing / Web",     sheet: "Marketing / Web" },
-    { id: "prod",  n: "02", name: "Producto",            sheet: "Producto" },
-    { id: "chp",   n: "03", name: "Customer Happiness",  sheet: "Customer Happiness" },
-    { id: "sales", n: "04", name: "Sales / BizDev",      sheet: "Sales / BizDev" },
-    { id: "fin",   n: "05", name: "Finanzas / Admin",    sheet: "Finanzas / Admin" },
-    { id: "proj",  n: "06", name: "Projects",            sheet: "Projects" }
+    { id: "mkt",   name: "Marketing / Web",     sheet: "Marketing / Web" },
+    { id: "prod",  name: "Producto",            sheet: "Producto" },
+    { id: "chp",   name: "Customer Happiness",  sheet: "Customer Happiness" },
+    { id: "sales", name: "Sales / BizDev",      sheet: "Sales / BizDev" },
+    { id: "fin",   name: "Finanzas / Admin",    sheet: "Finanzas / Admin" },
+    { id: "proj",  name: "Projects",            sheet: "Projects" }
   ];
+  // Dos pestañas, una sola base de datos: cada carril pertenece a una pestaña.
+  var TABS = [
+    { id: "saas", name: "Producto SaaS", lanes: ["mkt", "prod"],
+      note: "Lo que se construye y se publica para abrir: la web, el pricing, la documentación y el producto." },
+    { id: "ops",  name: "Operación continua", lanes: ["chp", "sales", "fin", "proj"],
+      note: "Lo que tiene que funcionar alrededor del producto: soporte, ventas, finanzas y proyectos con clientes." }
+  ];
+  var AVANCE = { todo: "Por empezar", doing: "En curso", done: "Listo" };
+  var AV_NEXT = { todo: "doing", doing: "done", done: "todo" };
   var PEOPLE = { T: "Tomás", D: "Diego", M: "Manu", C: "Caro", A: "Alexis" };
   var PORDER = ["T", "D", "M", "C", "A"];
   var KINDS = { crit: "Crítico", want: "Deseable", out: "Fuera del hito" };
   var COLS = { before: "Antes", later: "Después" };
 
+  var BUILD = typeof BUILD_DATE === "string" ? BUILD_DATE : "";
   var LS_CACHE = "bolder-hito-cache";
+  var DEFAULT_TAB = "saas";
+  var FETCH_TIMEOUT = 12000;
 
   var state = [];
+  var loaded = false;
+  var tab = DEFAULT_TAB;
   var expanded = {};
   var filter = null;
   var canEdit = false;
@@ -1028,6 +1201,16 @@ var FALLBACK_ROWS = [
     if (p.indexOf("finan") > -1 || p.indexOf("admin") > -1) return "fin";
     if (p.indexOf("project") > -1 || p.indexOf("proyecto") > -1) return "proj";
     return "mkt";
+  }
+  function avanceFromSheet(v) {
+    var p = plain(v);
+    if (p.indexOf("listo") > -1 || p.indexOf("hecho") > -1 || p.indexOf("complet") > -1) return "done";
+    if (p.indexOf("curso") > -1 || p.indexOf("desarrollo") > -1 || p.indexOf("progreso") > -1) return "doing";
+    return "todo";
+  }
+  function tabOfLane(laneId) {
+    for (var i = 0; i < TABS.length; i++) if (TABS[i].lanes.indexOf(laneId) > -1) return TABS[i];
+    return TABS[0];
   }
   function colFromSheet(v) { return plain(v).indexOf("antes") === 0 ? "before" : "later"; }
   function kindFromSheet(v) {
@@ -1053,6 +1236,7 @@ var FALLBACK_ROWS = [
       lane: laneFromSheet(r.carril),
       col: colFromSheet(r.columna),
       kind: kindFromSheet(r.estado),
+      av: avanceFromSheet(r.avance),
       title: String(r.titulo || "").trim(),
       lead: initialFromName(r.lider),
       people: peopleFromSheet(r.participantes),
@@ -1069,6 +1253,7 @@ var FALLBACK_ROWS = [
       carril: lane ? lane.sheet : c.lane,
       columna: COLS[c.col] || "Antes",
       estado: KINDS[c.kind] || "Deseable",
+      avance: AVANCE[c.av] || AVANCE.todo,
       titulo: c.title,
       lider: PEOPLE[c.lead] || "",
       participantes: (c.people || []).map(function (p) { return PEOPLE[p] || p; }).join(", "),
@@ -1105,17 +1290,26 @@ var FALLBACK_ROWS = [
   function fetchRows(silent) {
     if (!API_URL) { setSync(false, "Sin Sheet configurado · copia incluida en el archivo"); return Promise.resolve(); }
     if (!silent) setSync(false, "Leyendo el Sheet…");
-    return fetch(API_URL + "?t=" + Date.now(), { method: "GET" })
-      .then(function (r) { return r.json(); })
+    var timeout = new Promise(function (_, reject) { setTimeout(function () { reject(new Error("timeout")); }, FETCH_TIMEOUT); });
+    var req = fetch(API_URL + "?t=" + Date.now(), { method: "GET" }).then(function (r) { return r.json(); });
+    return Promise.race([req, timeout])
       .then(function (d) {
         if (!d || !d.ok || !d.rows) throw new Error("respuesta inesperada");
         adoptRows(d.rows);
+        loaded = true;
         cacheSave();
         render();
         setSync(true, "Sheet · actualizado " + hhmm());
       })
       .catch(function () {
-        setSync(false, "Sin conexión al Sheet · mostrando la última copia");
+        if (!state.length) {
+          // Nunca vimos el Sheet en este navegador: se muestra la copia del archivo, avisando de su fecha.
+          adoptRows(FALLBACK_ROWS);
+          render();
+          setSync(false, "Sin conexión al Sheet · mostrando la copia del archivo" + (BUILD ? " (" + BUILD + ")" : ""));
+        } else {
+          setSync(false, "Sin conexión al Sheet · mostrando la última copia");
+        }
       });
   }
 
@@ -1200,7 +1394,7 @@ var FALLBACK_ROWS = [
   }
 
   function chipNode(chip) {
-    var node = el("div", "chip" + (chip.kind === "crit" ? " crit" : "") + (chip.kind === "out" ? " out" : ""));
+    var node = el("div", "chip" + (chip.kind === "crit" ? " crit" : "") + (chip.kind === "out" ? " out" : "") + " av-" + chip.av);
     node.dataset.id = chip.id;
     if (canEdit) node.draggable = true;
 
@@ -1211,6 +1405,8 @@ var FALLBACK_ROWS = [
       grip.setAttribute("aria-hidden", "true");
       head.appendChild(grip);
     }
+
+    head.appendChild(markNode(chip));
 
     var open = el("button", "chip-open");
     open.type = "button";
@@ -1281,6 +1477,56 @@ var FALLBACK_ROWS = [
     return node;
   }
 
+  function markSvg(av) {
+    var ns = "http://www.w3.org/2000/svg";
+    var svg = document.createElementNS(ns, "svg");
+    svg.setAttribute("viewBox", "0 0 20 20");
+    svg.setAttribute("width", "18");
+    svg.setAttribute("height", "18");
+    svg.setAttribute("aria-hidden", "true");
+    function node(name, attrs) {
+      var n = document.createElementNS(ns, name);
+      for (var k in attrs) n.setAttribute(k, attrs[k]);
+      svg.appendChild(n);
+    }
+    if (av === "done") {
+      node("circle", { cx: 10, cy: 10, r: 9, fill: "currentColor" });
+      node("path", { d: "M5.8 10.4l2.9 2.9 5.5-6", fill: "none", stroke: "#1B1A17", "stroke-width": 2, "stroke-linecap": "round", "stroke-linejoin": "round" });
+    } else if (av === "doing") {
+      node("circle", { cx: 10, cy: 10, r: 8.25, fill: "none", stroke: "currentColor", "stroke-width": 1.5 });
+      node("path", { d: "M10 4a6 6 0 0 1 0 12z", fill: "currentColor" });
+    } else {
+      node("circle", { cx: 10, cy: 10, r: 8.25, fill: "none", stroke: "currentColor", "stroke-width": 1.5 });
+    }
+    return svg;
+  }
+
+  function markNode(chip) {
+    var label = AVANCE[chip.av] || AVANCE.todo;
+    if (!canEdit) {
+      var s = el("span", "mark av-" + chip.av);
+      s.title = label;
+      s.setAttribute("role", "img");
+      s.setAttribute("aria-label", label);
+      s.appendChild(markSvg(chip.av));
+      return s;
+    }
+    var b = el("button", "mark av-" + chip.av);
+    b.type = "button";
+    b.title = label + " · clic para pasar a " + AVANCE[AV_NEXT[chip.av]];
+    b.setAttribute("aria-label", "Avance: " + label + ". Clic para pasar a " + AVANCE[AV_NEXT[chip.av]]);
+    b.appendChild(markSvg(chip.av));
+    b.addEventListener("click", function (e) {
+      e.stopPropagation();
+      chip.av = AV_NEXT[chip.av];
+      queueWrite("set", chip);
+      cacheSave();
+      render();
+    });
+    b.addEventListener("dragstart", function (e) { e.preventDefault(); e.stopPropagation(); });
+    return b;
+  }
+
   function detailNode(chip) {
     var d = el("div", "detail");
     if (chip.sub && chip.sub.length) {
@@ -1341,8 +1587,86 @@ var FALLBACK_ROWS = [
     return c;
   }
 
+  function pad2(n) { return (n < 10 ? "0" : "") + n; }
+
+  function openCrit(laneIds) {
+    return state.filter(function (c) {
+      return c.kind === "crit" && c.col === "before" && c.av !== "done" && (!laneIds || laneIds.indexOf(c.lane) > -1);
+    }).length;
+  }
+
+  function writeHash() {
+    var parts = [];
+    if (tab !== DEFAULT_TAB) parts.push("tab=" + tab);
+    if (canEdit) parts.push("edit=" + encodeURIComponent(editKey));
+    var h = parts.length ? "#" + parts.join("&") : "";
+    try { history.replaceState(null, "", location.pathname + location.search + h); } catch (e) {}
+  }
+  function readTabFromHash() {
+    var m2 = /(?:^|[#&])tab=([^&]+)/.exec(location.hash || "");
+    var id = m2 ? decodeURIComponent(m2[1]) : DEFAULT_TAB;
+    for (var i = 0; i < TABS.length; i++) if (TABS[i].id === id) return id;
+    return DEFAULT_TAB;
+  }
+  function setTab(id) {
+    if (id === tab) return;
+    tab = id;
+    writeHash();
+    render();
+  }
+  function activeTab() {
+    for (var i = 0; i < TABS.length; i++) if (TABS[i].id === tab) return TABS[i];
+    return TABS[0];
+  }
+
+  var toastTimer = null;
+  function toast(msg) {
+    var t = document.getElementById("toast");
+    t.textContent = msg;
+    t.classList.add("on");
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.classList.remove("on"); }, 4200);
+  }
+
+  function renderTabs() {
+    var box = document.getElementById("tabs");
+    box.innerHTML = "";
+    TABS.forEach(function (t) {
+      var b = el("button", "tab");
+      b.type = "button";
+      b.id = "tab-" + t.id;
+      b.setAttribute("role", "tab");
+      b.setAttribute("aria-selected", String(t.id === tab));
+      b.setAttribute("aria-controls", "board");
+      b.tabIndex = t.id === tab ? 0 : -1;
+      b.appendChild(el("span", "tab-name", t.name));
+      var open = openCrit(t.lanes);
+      var cnt = el("span", "cnt" + (open === 0 ? " zero" : ""), open === 0 ? "sin críticos abiertos" : open + (open === 1 ? " crítico abierto" : " críticos abiertos"));
+      b.appendChild(cnt);
+      b.addEventListener("click", function () { setTab(t.id); });
+      b.addEventListener("keydown", function (e) {
+        if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+        var i = TABS.indexOf(t) + (e.key === "ArrowRight" ? 1 : -1);
+        var nx = TABS[(i + TABS.length) % TABS.length];
+        setTab(nx.id);
+        var nb = document.getElementById("tab-" + nx.id);
+        if (nb) nb.focus();
+      });
+      box.appendChild(b);
+    });
+    document.getElementById("tabnote").textContent = activeTab().note;
+    board.setAttribute("role", "tabpanel");
+    board.setAttribute("aria-labelledby", "tab-" + tab);
+  }
+
   function render() {
     board.innerHTML = "";
+    renderTabs();
+
+    if (!state.length) {
+      board.appendChild(el("p", "loading", "Leyendo el Sheet…"));
+      return;
+    }
 
     var head = el("div", "colhead");
     head.appendChild(el("div"));
@@ -1356,10 +1680,11 @@ var FALLBACK_ROWS = [
     head.appendChild(h2);
     board.appendChild(head);
 
-    LANES.forEach(function (lane) {
+    activeTab().lanes.forEach(function (laneId, i) {
+      var lane = LANES.filter(function (l) { return l.id === laneId; })[0];
       var row = el("div", "lane");
       var name = el("div", "lane-name");
-      name.appendChild(el("span", "n", lane.n));
+      name.appendChild(el("span", "n", pad2(i + 1)));
       name.appendChild(el("span", "nm", lane.name));
       row.appendChild(name);
       row.appendChild(colNode(lane.id, "before"));
@@ -1368,8 +1693,12 @@ var FALLBACK_ROWS = [
     });
 
     applyFilter();
-    document.getElementById("critcount").textContent =
-      String(state.filter(function (c) { return c.kind === "crit" && c.col === "before"; }).length);
+
+    var crit = state.filter(function (c) { return c.kind === "crit" && c.col === "before"; });
+    var done = crit.filter(function (c) { return c.av === "done"; }).length;
+    document.getElementById("critcount").textContent = String(crit.length - done);
+    document.getElementById("progtxt").textContent = done + " de " + crit.length + " críticos listos";
+    document.getElementById("progbar").style.width = (crit.length ? Math.round(done * 100 / crit.length) : 0) + "%";
   }
 
   function applyFilter() {
@@ -1415,7 +1744,7 @@ var FALLBACK_ROWS = [
     closeSheet();
     var isNew = !id;
     var chip = isNew
-      ? { id: newId(), lane: laneDefault || "mkt", col: colDefault || "before", kind: "crit",
+      ? { id: newId(), lane: laneDefault || activeTab().lanes[0], col: colDefault || "before", kind: "crit", av: "todo",
           title: "", lead: "D", people: [], week: "", dep: "", sub: [], order: 0 }
       : clone(byId(id));
     if (!chip) return;
@@ -1441,10 +1770,15 @@ var FALLBACK_ROWS = [
 
     var two = el("div", "two");
     var laneSel = el("select"); laneSel.id = "f-lane";
-    LANES.forEach(function (l) {
-      var o = el("option", null, l.name); o.value = l.id;
-      if (l.id === chip.lane) o.selected = true;
-      laneSel.appendChild(o);
+    TABS.forEach(function (t) {
+      var g = el("optgroup"); g.label = t.name;
+      t.lanes.forEach(function (id3) {
+        var l = LANES.filter(function (x) { return x.id === id3; })[0];
+        var o = el("option", null, l.name); o.value = l.id;
+        if (l.id === chip.lane) o.selected = true;
+        g.appendChild(o);
+      });
+      laneSel.appendChild(g);
     });
     var colSel = el("select"); colSel.id = "f-col";
     [["before", "Antes del 1 nov"], ["later", "Después de la apertura"]].forEach(function (p) {
@@ -1463,11 +1797,18 @@ var FALLBACK_ROWS = [
       if (p[0] === chip.kind) o.selected = true;
       kindSel.appendChild(o);
     });
+    var avSel = el("select"); avSel.id = "f-av";
+    ["todo", "doing", "done"].forEach(function (k) {
+      var o = el("option", null, AVANCE[k]); o.value = k;
+      if (k === chip.av) o.selected = true;
+      avSel.appendChild(o);
+    });
     var week = el("input"); week.type = "text"; week.id = "f-week";
     week.value = chip.week || ""; week.placeholder = "1–2";
-    two2.appendChild(field("Estado", kindSel, "f-kind"));
-    two2.appendChild(field("Semana", week, "f-week"));
+    two2.appendChild(field("Prioridad", kindSel, "f-kind"));
+    two2.appendChild(field("Avance", avSel, "f-av"));
     sheet.appendChild(two2);
+    sheet.appendChild(field("Semana", week, "f-week"));
 
     var pf = el("div", "field");
     pf.appendChild(el("span", "grouplabel", "Quiénes intervienen · líder"));
@@ -1510,6 +1851,7 @@ var FALLBACK_ROWS = [
       chip.lane = laneSel.value;
       chip.col = colSel.value;
       chip.kind = kindSel.value;
+      chip.av = avSel.value;
       chip.week = week.value.trim();
       chip.dep = dep.value.trim();
       chip.sub = sub.value.split("\n").map(function (s) { return s.trim(); }).filter(Boolean);
@@ -1533,6 +1875,8 @@ var FALLBACK_ROWS = [
       cacheSave();
       closeSheet();
       render();
+      var dest = tabOfLane(chip.lane);
+      if (dest.id !== tab) toast("«" + chip.title + "» quedó en la pestaña " + dest.name + ".");
     });
     actions.appendChild(save);
 
@@ -1563,15 +1907,25 @@ var FALLBACK_ROWS = [
   /* ---------- arranque ---------- */
   var m = /(?:^|[#&])edit=([^&]+)/.exec(location.hash || "");
   if (m) { editKey = decodeURIComponent(m[1]); canEdit = true; }
+  tab = readTabFromHash();
+  window.addEventListener("hashchange", function () {
+    var t = readTabFromHash();
+    if (t !== tab) { tab = t; render(); }
+  });
 
   if (canEdit) {
     Array.prototype.forEach.call(document.querySelectorAll(".editonly"), function (n) { n.hidden = false; });
     document.getElementById("usoBody").innerHTML =
-      "<p>Arrastra un chip de una columna a la otra, o usa <b>◀ ▶</b> para moverlo. <b>✎</b> abre el compromiso para editar nombre, estado, participantes y líder. <b>+ Compromiso</b> crea uno nuevo.</p>" +
+      "<p>Arrastra un chip de una columna a la otra, o usa <b>◀ ▶</b> para moverlo. <b>✎</b> abre el compromiso para editar nombre, prioridad, avance, participantes y líder. <b>+ Compromiso</b> crea uno nuevo en la pestaña que estás viendo.</p>" +
+      "<p>El círculo a la izquierda de cada compromiso es su avance: un clic lo pasa de <b>Por empezar</b> a <b>En curso</b> y a <b>Listo</b>.</p>" +
       "<p>Todo lo que cambies se guarda en el Sheet. Quien abra el link sin clave ve el tablero, pero no puede editarlo.</p>";
   }
 
-  document.getElementById("addBtn").addEventListener("click", function () { openSheet(null, "mkt", "before"); });
+  Array.prototype.forEach.call(document.querySelectorAll("[data-mark]"), function (n) {
+    n.insertBefore(markSvg(n.dataset.mark), n.firstChild);
+  });
+
+  document.getElementById("addBtn").addEventListener("click", function () { openSheet(null, activeTab().lanes[0], "before"); });
   document.getElementById("refreshBtn").addEventListener("click", function () { fetchRows(false); });
 
   var allBtn = document.getElementById("toggleAll");
@@ -1599,10 +1953,12 @@ var FALLBACK_ROWS = [
   var days = Math.round((target - new Date(now.getFullYear(), now.getMonth(), now.getDate())) / 86400000);
   if (days > 0) document.getElementById("left").textContent = days + " días";
 
-  // Primero lo que ya venía en el archivo, después la caché, después el Sheet.
-  adoptRows(FALLBACK_ROWS);
+  // Primero la caché de este navegador (si existe), después el Sheet.
+  // La copia incluida en el archivo solo se usa si el Sheet no responde y no hay caché:
+  // así nunca se ve por un instante un estado viejo.
   var cached = cacheLoad();
   if (cached) adoptRows(cached.rows);
+  writeHash();
   render();
   fetchRows(false);
 
